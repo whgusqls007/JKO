@@ -1,3 +1,3 @@
 # JKO
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e71df9dc91c54939889790c8f229c8ff)](https://www.codacy.com/gh/PNUJKO/JKO/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PNUJKO/JKO&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d196e33723244621b9956f24cc127feb)](https://app.codacy.com/gh/PNUJKO/JKO?utm_source=github.com&utm_medium=referral&utm_content=PNUJKO/JKO&utm_campaign=Badge_Grade_Settings)
