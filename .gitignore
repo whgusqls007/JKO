@@ -1,3 +1,7 @@
+/.vscode
+macro.py
+msedgedriver.exe
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
