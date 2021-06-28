@@ -1,10 +1,10 @@
 import selenium
-from CrawlingDriver import Crawling
+from CrawlingDriver import CrawlingDriver
 
 
-class Donga(Crawling):
+class Donga(CrawlingDriver):
     def __init__(self) -> None:
-        Crawling.__init__(self)
+        CrawlingDriver.__init__(self)
         # 각 카테고리별 링크
         self.catecoryDir: dict = {
             "politics": "https://www.donga.com/news/Politics",
@@ -12,6 +12,13 @@ class Donga(Crawling):
             "inter": "https://www.donga.com/news/Inter",
             "society": "https://www.donga.com/news/Society",
             "sports": "https://www.donga.com/news/Sports",
+        }
+        self.lastTitle: dict = {
+            "politics": "",
+            "economy": "",
+            "inter": "",
+            "society": "",
+            "sports": "",
         }
 
     def startCrawling(self) -> None:
@@ -81,6 +88,8 @@ class Donga(Crawling):
             self.driver.quit()
             # self.driver.close()
 
+        return
+
     def getSite(self, catecory: str) -> None:
         self.driver.get(self.catecoryDir[catecory])
         title: str = self.driver.find_element_by_xpath(
@@ -88,8 +97,3 @@ class Donga(Crawling):
         )
         title.click()
         return
-
-
-if __name__ == "__main__":
-    D = Donga()
-    D.startCrawling()
