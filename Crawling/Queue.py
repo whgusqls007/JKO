@@ -38,15 +38,36 @@ class Queue:
     def refer(self, index: int) -> any:
         return self._queue[index]
 
-    def find(self, element) -> bool:
+    def update(self, index: int, element: any) -> None:
+        self._queue[index]["title"] = element["title"]
+        self._queue[index]["mainText"] = element["mainText"]
+        self._queue[index]["category"] = element["category"]
+        return
+
+    def isExist(self, element: any) -> dict:
         if self.size() == 0:
-            return False
+            return {"find": 0, "index": -1}
 
-        for dict in self._queue:
+        for index in range(self.size()):
             if (
-                dict["title"] == element["title"]
-                or dict["mainText"] == element["mainText"]
+                self._queue[index]["title"] == element["title"]
+                and self._queue[index]["mainText"] == element["mainText"]
             ):
-                return True
+                return {"find": 1, "index": index}
 
-        return False
+            elif (
+                self._queue[index]["title"] != element["title"]
+                and self._queue[index]["mainText"] == element["mainText"]
+            ):
+                return {"find": 2, "index": index}
+
+            elif (
+                self._queue[index]["title"] == element["title"]
+                and self._queue[index]["mainText"] != element["mainText"]
+            ):
+                return {"find": 3, "index": index}
+
+            else:
+                continue
+
+        return {"find": 0, "index": -1}
