@@ -37,3 +37,11 @@ class Queue:
 
     def refer(self, index: int) -> any:
         return self._queue[index]
+
+    def find(self, element) -> bool:
+        for dict in self._queue:
+            if (
+                dict["title"] == element["title"]
+                or dict["mainText"] == element["mainText"]
+            ):
+                return True
