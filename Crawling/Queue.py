@@ -39,9 +39,14 @@ class Queue:
         return self._queue[index]
 
     def find(self, element) -> bool:
+        if self.size() == 0:
+            return False
+
         for dict in self._queue:
             if (
                 dict["title"] == element["title"]
                 or dict["mainText"] == element["mainText"]
             ):
                 return True
+
+        return False
