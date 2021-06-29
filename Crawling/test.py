@@ -1,4 +1,3 @@
-from CrawlingDriver import CrawlingDriver as CD
 from DongaDriver import Donga
 import time
 
@@ -6,7 +5,7 @@ import time
 class test:
     def __init__(self) -> None:
         self.donga = Donga()
-        self.time = 100
+        self.time = 20
 
     def run(self) -> None:
         while True:
