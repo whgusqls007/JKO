@@ -9,7 +9,8 @@ class test:
 
     def run(self) -> None:
         while True:
-            self.donga.startCrawling()
+            crawlingResult = self.donga.run()
+            print(crawlingResult[0]["politics"].refer(0))
             time.sleep(self.time)
 
 
