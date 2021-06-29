@@ -1,9 +1,6 @@
-from warnings import catch_warnings
-import selenium
-from selenium.webdriver.common.by import By
-import time
-from Queue import Queue as Q
 from CrawlingDriver import CrawlingDriver
+from Queue import Queue as Q
+import selenium
 
 
 class Donga(CrawlingDriver):
