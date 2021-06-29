@@ -10,7 +10,10 @@ class test:
     def run(self) -> None:
         while True:
             crawlingResult = self.donga.run()
-            print(crawlingResult[0]["politics"].refer(0))
+            if crawlingResult[1]:
+                # DB 저장?
+                dosometing = 0
+
             time.sleep(self.time)
 
 
