@@ -12,16 +12,17 @@ class CrawlingDriver:
         # Chrome
         # self.driver = webdriver.Chrome(Chrome().install())
         # Edge
-        self.driver = webdriver.Edge(Edge().install())
+        self._driver = webdriver.Edge(Edge().install())
         # Firefox
         # self.driver = webdriver.Firefox(Firefox().install())
+
         # 기다리는 시간 설정
-        self.driver.implicitly_wait(20)
+        # self._driver.implicitly_wait(20)
 
         # 자바 스크립트 끄기
         # 꺼도 HTML 읽어 오는덴 상관 없음
-        self.driver.get("edge://settings/content/javascript")
-        self.driver.find_element_by_xpath("//*[@id='permission-toggle-row']").click()
+        self._driver.get("edge://settings/content/javascript")
+        self._driver.find_element_by_xpath("//*[@id='permission-toggle-row']").click()
 
         # 하위 드라이버들의 카테고리 묶음
-        self.category: list = ["politics", "economy", "inter", "society", "sports"]
+        self._category: list = ["politics", "economy", "inter", "society", "sports"]
