@@ -4,5 +4,5 @@
     <h3>뉴스 중복 필터링 시스템</h3>
 </div>
 <div>
-    <h3>Crawling Module</h3>
+    <h1>Crawling Module</h1>
 </div>
