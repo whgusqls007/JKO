@@ -3,6 +3,7 @@
     <h3>팀 JKO</h3>
     <h3>뉴스 중복 필터링 시스템</h3>
 </div>
+<h1></h1>
 <div>
     <h1>Crawling Module</h1>
 </div>
