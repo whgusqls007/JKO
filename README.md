@@ -6,9 +6,8 @@
 <div>
     <h1></h1>
     <h2>Crawling Module</h2>
-    <pre>
-        <p>언론사 목록</p>
-        <ul>
-            <li>부산일보</li>
-        </ul>
+    <p>언론사 목록</p>
+    <ul>
+        <li>부산일보</li>
+    </ul>
 </div>
