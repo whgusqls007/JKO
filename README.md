@@ -22,8 +22,14 @@
         </ul>
         <a href="https://github.com/whgusqls007/JKO/tree/main/Crawling">Run Crawling Module</a>
     </div>
-    <h1></h1>
-    <h2>React Native (expo)</h2>
-    <h1></h1>
-    <h2>Rest Api (Django)</h2>
+    <div>
+        <h1></h1>
+        <h2>React Native (Expo)</h2>
+        <a href="https://github.com/whgusqls007/JKO/tree/main/client-app">Run Expo App</a> 
+    </div>
+    <div>
+        <h1></h1>
+        <h2>Rest Api (Django)</h2>
+        <a href="https://github.com/whgusqls007/JKO/tree/main/RestApi">Run Django RestApi</a> 
+    </div>
 </div>
