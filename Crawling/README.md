@@ -1,8 +1,8 @@
 <h3>Install selenium</h3>
-```c
+```C
 pip install selenium
 ```
 <h3>Install Pymongo</h3>
-```c
+```C
 pip install pymongo
 ```
