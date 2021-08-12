@@ -1,20 +1,10 @@
-<h3>1. Install Django</h3>
-    <pre>
-        pip install django
-    </pre>
-<h3>2. Install Djongo</h3>
-    <pre>
-        pip install djongo
-    </pre>
-<h3>3. Install DjangoRestFramework</h3>
-    <pre>
-        pip install djangorestframework
-    </pre>
-<h3>4. Install Django-Cors-Headers</h3>
-    <pre>
-        pip install django-cors-headers
-    </pre>
-<h3>5. Start server</h3>
-    <pre>
-        python manage.py runserver IP:PORT
-    </pre>
+<h2>1. Install Django</h2>
+    <pre>pip install django</pre>
+<h2>2. Install Djongo</h2>
+    <pre>pip install djongo</pre>
+<h2>3. Install DjangoRestFramework</h2>
+    <pre>pip install djangorestframework</pre>
+<h2>4. Install Django-Cors-Headers</h2>
+    <pre>pip install django-cors-headers</pre>
+<h2>5. Start server</h2>
+    <pre>python manage.py runserver IP:PORT</pre>
