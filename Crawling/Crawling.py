@@ -42,35 +42,36 @@ class Crawling:
 
     def start(self):
         subClass = None
-        for col in self.colList:
-            self.articles.clear()
+        while True:
+            for col in self.colList:
+                self.articles.clear()
 
-            if col == "api_busan":
-                subClass = Busan()
-            elif col == "api_herald":
-                subClass = Herald()
-            elif col == "api_nocut":
-                subClass = Nocut()
-            elif col == "api_ohmynews":
-                subClass = Ohmynews()
-            elif col == "api_wikitree":
-                subClass = Wiki()
-            elif col == "api_donga":
-                subClass = Donga()
-            elif col == "api_hangook":
-                subClass = Hangook()
-            elif col == "api_joseon":
-                subClass = Joseon()
-            elif col == "api_yeonhap":
-                subClass = Yeonhap()
-            elif col == "api_joongang":
-                subClass = Joongang()
+                if col == "api_busan":
+                    subClass = Busan()
+                elif col == "api_herald":
+                    subClass = Herald()
+                elif col == "api_nocut":
+                    subClass = Nocut()
+                elif col == "api_ohmynews":
+                    subClass = Ohmynews()
+                elif col == "api_wikitree":
+                    subClass = Wiki()
+                elif col == "api_donga":
+                    subClass = Donga()
+                elif col == "api_hangook":
+                    subClass = Hangook()
+                elif col == "api_joseon":
+                    subClass = Joseon()
+                elif col == "api_yeonhap":
+                    subClass = Yeonhap()
+                elif col == "api_joongang":
+                    subClass = Joongang()
 
-            self.articles = subClass.crawling()
-            subClass.quit()
+                self.articles = subClass.crawling()
+                subClass.quit()
 
-            self.col = self.db[col]
-            self.insertDB()
+                self.col = self.db[col]
+                self.insertDB()
 
     def insertDB(self):
         for article in self.articles:
