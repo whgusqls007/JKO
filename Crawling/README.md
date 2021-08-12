@@ -2,7 +2,11 @@
     <pre>
         pip install selenium
     </pre>
-<h3>Install Pymongo</h3>
+<h3>Install pymongo</h3>
     <pre>
         pip install pymongo
+    </pre>
+<h3>Start Crawling</h3>
+    <pre>
+        python ./Crawling.py
     </pre>
