@@ -10,21 +10,33 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
-import ssl
+from django.core.exceptions import ImproperlyConfigured
 import os
+import json
 
-SK = os.getenv("RestApiSecretKey")
-DBURI = os.getenv("DBURI")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+secret_file = os.path.join(BASE_DIR, 'secret.json')
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+# secrets.json 파일에서 SECRET_KEY 가져오기    
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SK
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -86,7 +98,7 @@ DATABASES = {
         "ENGINE": "djongo",
         "NAME": "Donga",
         "ENFORCE_SCHEMA": False,
-        "CLIENT": {"host": DBURI},
+        "CLIENT": {"host": get_secret("DBURI")},
     }
 }
 
