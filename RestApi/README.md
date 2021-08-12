@@ -10,7 +10,11 @@
     <pre>
         pip install djangorestframework
     </pre>
-<h3>4. Start server</h3>
+<h3>4. Install Django-Cors-Headers</h3>
+    <pre>
+        pip install django-cors-headers
+    </pre>
+<h3>5. Start server</h3>
     <pre>
         python manage.py runserver IP:PORT
     </pre>
