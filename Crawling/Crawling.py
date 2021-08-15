@@ -13,9 +13,17 @@ from pymongo import MongoClient
 import random
 
 import os
+import json
 
-DBURI = os.getenv("DBURI")
+with open("Crawling/secret.json", "r") as f:
+    secrets = json.loads(f.read())
 
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 class Crawling:
     def __init__(self):
@@ -36,7 +44,7 @@ class Crawling:
         self.articles = []
 
     def connectDB(self):
-        client = MongoClient(DBURI)
+        client = MongoClient(get_secret("DBURI"))
         db = client["Donga"]
         return db
 
@@ -48,24 +56,34 @@ class Crawling:
 
                 if col == "api_busan":
                     subClass = Busan()
+                    print("부산")
                 elif col == "api_herald":
                     subClass = Herald()
+                    print("헤럴드")
                 elif col == "api_nocut":
                     subClass = Nocut()
+                    print("노컷")
                 elif col == "api_ohmynews":
                     subClass = Ohmynews()
+                    print("오마이")
                 elif col == "api_wikitree":
                     subClass = Wiki()
+                    print("위키")
                 elif col == "api_donga":
                     subClass = Donga()
+                    print("동아")
                 elif col == "api_hangook":
                     subClass = Hangook()
+                    print("한국")
                 elif col == "api_joseon":
                     subClass = Joseon()
+                    print("조선")
                 elif col == "api_yeonhap":
                     subClass = Yeonhap()
+                    print("연합")
                 elif col == "api_joongang":
                     subClass = Joongang()
+                    print("중앙")
 
                 self.articles = subClass.crawling()
                 subClass.quit()
