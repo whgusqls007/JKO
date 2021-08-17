@@ -1,9 +1,19 @@
 from CrawlingModule import CrawlingDriver
 import time
-import os
+import json
 
-ID = os.getenv("JoseonID")
-PW = os.getenv("JoseonPW")
+with open("Crawling/secret.json", "r") as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    return secrets[setting]
+
+
+ID = get_secret("JoseonID")
+PW = get_secret("JoseonPW")
+print(ID)
+print(PW)
 
 
 class Joseon(CrawlingDriver):
@@ -18,9 +28,7 @@ class Joseon(CrawlingDriver):
         self.login()
 
     def login(self):
-        self.driver.get("https://www.chosun.com/")
-
-        self.driver.find_element_by_xpath("//*[@id='nav']/div[2]/div[3]/div").click()
+        self.driver.get("https://www.chosun.com/subscribe/signin/")
 
         time.sleep(3)
 

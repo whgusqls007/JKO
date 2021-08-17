@@ -12,18 +12,15 @@ from Joongang import Joongang
 from pymongo import MongoClient
 import random
 
-import os
 import json
 
 with open("Crawling/secret.json", "r") as f:
     secrets = json.loads(f.read())
 
+
 def get_secret(setting, secrets=secrets):
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+    return secrets[setting]
+
 
 class Crawling:
     def __init__(self):
@@ -55,35 +52,42 @@ class Crawling:
                 self.articles.clear()
 
                 if col == "api_busan":
+                    continue
                     subClass = Busan()
-                    print("부산")
+                    print("\n\n부산\n\n")
                 elif col == "api_herald":
+                    continue
                     subClass = Herald()
-                    print("헤럴드")
+                    print("\n\n헤럴드\n\n")
                 elif col == "api_nocut":
+                    continue
                     subClass = Nocut()
-                    print("노컷")
+                    print("\n\n노컷\n\n")
                 elif col == "api_ohmynews":
+                    continue
                     subClass = Ohmynews()
-                    print("오마이")
+                    print("\n\n오마이\n\n")
                 elif col == "api_wikitree":
+                    continue
                     subClass = Wiki()
-                    print("위키")
+                    print("\n\n위키\n\n")
                 elif col == "api_donga":
+                    continue
                     subClass = Donga()
-                    print("동아")
+                    print("\n\n동아\n\n")
                 elif col == "api_hangook":
+                    continue
                     subClass = Hangook()
-                    print("한국")
+                    print("\n\n한국\n\n")
                 elif col == "api_joseon":
                     subClass = Joseon()
-                    print("조선")
+                    print("\n\n조선\n\n")
                 elif col == "api_yeonhap":
                     subClass = Yeonhap()
-                    print("연합")
+                    print("\n\n연합\n\n")
                 elif col == "api_joongang":
                     subClass = Joongang()
-                    print("중앙")
+                    print("\n\n중앙\n\n")
 
                 self.articles = subClass.crawling()
                 subClass.quit()
