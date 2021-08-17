@@ -1,7 +1,7 @@
 .env
 client-app/setting.json
 secret.json
-
+*.pem
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
