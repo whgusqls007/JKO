@@ -15,7 +15,9 @@ const ArticleModal = (props) => {
 			animationType="slide"
 			transparent={false}
 			visible={props.item.visible}
-			onRequestClose={() => props.FsetFalse(props.item.id)}
+			onRequestClose={() =>
+				props.FsetFalse(props.item.id, props.data, props.FsetData)
+			}
 		>
 			<AntDesign.Button
 				name="back"
@@ -23,7 +25,7 @@ const ArticleModal = (props) => {
 				color="black"
 				backgroundColor="white"
 				onPress={() => {
-					props.FsetFalse(props.item.id);
+					props.FsetFalse(props.item.id, props.data, props.FsetData);
 				}}
 				style={{ paddingLeft: 20 }}
 			>
@@ -33,6 +35,9 @@ const ArticleModal = (props) => {
 				<View style={styles.container}>
 					<Text style={styles.titleSize}>{props.item.title}</Text>
 					<Text />
+					<Text style={styles.titleSubElement}>
+						{props.item.press}
+					</Text>
 					<Text style={styles.titleSubElement}>
 						{props.item.date}
 					</Text>
@@ -65,9 +70,9 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 		marginTop: 5,
 		backgroundColor: "white",
-		borderRadius: 20,
+		borderColor: "black",
+		borderWidth: 1,
 		padding: 35,
-		alignItems: "center",
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
@@ -76,14 +81,13 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		elevation: 5,
+		textAlign: "left",
 	},
 	titleSize: {
 		fontSize: 20,
 	},
 	titleSubElement: {
 		fontSize: 13,
-		marginLeft: 0,
-		marginRight: "auto",
 	},
 	articleSize: {
 		fontSize: 16,

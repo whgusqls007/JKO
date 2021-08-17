@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "react-native";
-import ButtonModalDetail from "../components/ButtonModalDetail";
+import ButtonModalDetailForSubs from "./ButtonModalDetailForSubs";
 
-const ButtonModal = (props) => {
+const ButtonModalForSubs = (props) => {
 	return (
 		<Modal
 			animationType="fade"
@@ -11,7 +11,7 @@ const ButtonModal = (props) => {
 			onRequestClose={() => props.FsetVisible(false)}
 			style={{ opacity: 0.1 }}
 		>
-			<ButtonModalDetail
+			<ButtonModalDetailForSubs
 				FsetVisible={props.FsetVisible}
 				FsetCurrent={props.FsetCurrent}
 				currentValue={props.currentValue}
@@ -20,4 +20,4 @@ const ButtonModal = (props) => {
 		</Modal>
 	);
 };
-export default ButtonModal;
+export default ButtonModalForSubs;

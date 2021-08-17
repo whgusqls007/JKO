@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, BackHandler } from "react-native";
-import CardComponent from "../components/Card";
-import ButtonModal from "../components/ButtonModal";
+import { View, StyleSheet, FlatList, Text, BackHandler } from "react-native";
 import SearchModal from "../components/SearchModal";
-import ScreenHeader from "../components/ScreenHeader";
 import setting from "../../setting.json";
+import CardComponentForSubs from "../components/CardForSubs";
 import { CategoryLabel } from "../functions/functions";
+import ButtonModalForSubs from "../components/ButtonModalForSubs";
+import ScreenHeaderForMain from "../components/ScreenHeaderForMain";
 
-const Yeonhap = (props) => {
+const Subscribe = (props) => {
 	const [visible1, setVisible1] = useState(false);
 	const [visible2, setVisible2] = useState(false);
 	const [current, setCurrent] = useState("All");
@@ -42,15 +42,13 @@ const Yeonhap = (props) => {
 	useEffect(() => {
 		CategoryLabel(current, setCategoryLabel);
 	}, [current]);
-
 	return (
 		<View style={styles.container}>
-			<ButtonModal
+			<ButtonModalForSubs
 				FsetVisible={setVisible1}
 				FsetCurrent={setCurrent}
 				currentValue={current}
 				visibleValue={visible1}
-				name="read_yeonhap/"
 			/>
 			<SearchModal
 				visibleValue={visible2}
@@ -62,8 +60,8 @@ const Yeonhap = (props) => {
 				FsetReset={setReset}
 				reset={reset}
 			/>
-			<ScreenHeader
-				screenName="연합뉴스"
+			<ScreenHeaderForMain
+				screenName="구독"
 				FsetVisible1={setVisible1}
 				FsetVisible2={setVisible2}
 				categoryLabelValue={categoryLabel}
@@ -71,9 +69,7 @@ const Yeonhap = (props) => {
 				FsetReset={setReset}
 				reset={reset}
 			/>
-			<CardComponent
-				pressName="read_yeonhap/"
-				pressURL={setting["URL"] + "read_yeonhap/"}
+			<CardComponentForSubs
 				search={text}
 				category={current}
 				fromFirst={fromFirst}
@@ -90,5 +86,4 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 });
-
-export default Yeonhap;
+export default Subscribe;

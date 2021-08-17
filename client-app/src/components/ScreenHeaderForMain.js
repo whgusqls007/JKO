@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, Platform, CheckBox } from "react-native";
+import React from "react";
+import { View, StyleSheet, Text, Platform } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-const ScreenHeader = (props) => {
+const ScreenHeaderForMain = (props) => {
 	return (
 		<View style={styles.header}>
 			<AntDesign.Button
@@ -15,7 +15,6 @@ const ScreenHeader = (props) => {
 			<Text style={styles.text}>
 				{props.screenName} : {props.categoryLabelValue}
 			</Text>
-
 			<View style={{ flexDirection: "row" }}>
 				<AntDesign.Button
 					name="retweet"
@@ -38,7 +37,6 @@ const ScreenHeader = (props) => {
 					size={24}
 					color="black"
 					backgroundColor="white"
-					style={{ marginleft: 0, marginRight: 0 }}
 					onPress={() => {
 						props.FsetVisible2(true);
 					}}
@@ -48,7 +46,6 @@ const ScreenHeader = (props) => {
 					size={24}
 					color="black"
 					backgroundColor="white"
-					style={{ marginleft: 0, marginRight: 3 }}
 					onPress={() => props.FsetVisible1(true)}
 				/>
 			</View>
@@ -73,6 +70,21 @@ if (Platform.OS === "android") {
 			textAlignVertical: "center",
 			fontSize: 20,
 		},
+		subScribe: {
+			flexDirection: "row",
+		},
+		subScribeText: {
+			marginLeft: "5%",
+			textAlign: "center",
+			textAlignVertical: "center",
+			fontSize: 20,
+			marginRight: 0,
+			paddingRight: 0,
+		},
+		subScribeBox: {
+			marginLeft: 0,
+			paddingLeft: 0,
+		},
 	});
 } else {
 	styles = StyleSheet.create({
@@ -96,4 +108,4 @@ if (Platform.OS === "android") {
 	});
 }
 
-export default ScreenHeader;
+export default ScreenHeaderForMain;

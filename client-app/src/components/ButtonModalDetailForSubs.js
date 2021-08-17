@@ -1,85 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, StyleSheet, Text, CheckBox } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import RadioButton from "expo-radio-button";
-import {
-	getItemFromAsync,
-	setItemToAsync,
-	isEmpty,
-} from "../functions/functions";
-const ButtonModalDetail = (props) => {
-	const [isSelected, setSelection] = useState(false);
 
-	useEffect(() => {
-		getItemFromAsync(props.name).then((data) => {
-			if (data !== null) {
-				if (data.saved === props.name) {
-					setSelection(true);
-				} else if (data.saved === true) {
-					setSelection(false);
-					setItemToAsync(props.name, { saved: false });
-				} else {
-					setSelection(false);
-				}
-			} else {
-				setSelection(false);
-				setItemToAsync(props.name, { saved: false });
-			}
-		});
-	}, []);
-
-	console.log("Now: " + isSelected);
-
-	useEffect(() => {
-		getItemFromAsync(props.name).then((data) => {
-			console.log("!@#");
-			console.log(data);
-			console.log(isSelected);
-			if (data !== null) {
-				if (data.saved === props.name && isSelected === false) {
-					setItemToAsync(props.name, { saved: false }).then(() => {
-						getItemFromAsync(props.name).then((data2) => {
-							console.log("#@$$#!@");
-							console.log(data2);
-						});
-					});
-				} else if (data.saved === false && isSelected === true) {
-					setItemToAsync(props.name, { saved: props.name }).then(
-						() => {
-							getItemFromAsync(props.name).then((data2) => {
-								console.log("#@$$#!@");
-								console.log(data2);
-							});
-						}
-					);
-				} else if (data.saved === false && isSelected === false) {
-					setItemToAsync(props.name, { saved: false }).then(() => {
-						getItemFromAsync(props.name).then((data2) => {
-							console.log("#@$$#!@");
-							console.log(data2);
-						});
-					});
-				} else if (data.saved === props.name && isSelected === true) {
-					setItemToAsync(props.name, { saved: props.name }).then(
-						() => {
-							getItemFromAsync(props.name).then((data2) => {
-								console.log("#@$$#!@");
-								console.log(data2);
-							});
-						}
-					);
-				}
-			} else {
-				setItemToAsync(props.name, { saved: false }).then(() => {
-					getItemFromAsync(props.name).then((data2) => {
-						console.log("#@$$#!@");
-						console.log(data2);
-					});
-				});
-			}
-		});
-	}, [isSelected]);
-
+const ButtonModalDetailForSubs = (props) => {
 	return (
 		<View style={{ backgroundColor: "white" }}>
 			<View style={{ flexWrap: "nowrap" }}>
@@ -143,14 +67,6 @@ const ButtonModalDetail = (props) => {
 				</View>
 			</View>
 			<View style={styles.closecircleView}>
-				<View style={styles.subScribe}>
-					<CheckBox
-						value={isSelected}
-						onValueChange={setSelection}
-						style={styles.subScribeBox}
-					/>
-					<Text style={styles.subScribeText}>구독</Text>
-				</View>
 				<AntDesign.Button
 					name="closecircle"
 					size={24}
@@ -207,4 +123,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ButtonModalDetail;
+export default ButtonModalDetailForSubs;
