@@ -36,6 +36,28 @@ def function(className, request):
         ).order_by("-date")[first:last]
 
     data = []
+    press = ""
+    if className == busan:
+        press = "부산일보"
+    elif className == Ohmynews:
+        press = "오마이뉴스"
+    elif className == Wikitree:
+        press = "위키트리"
+    elif className == Herald:
+        press = "헤럴드경졔"
+    elif className == Nocut:
+        press = "노컷뉴스"
+    elif className == Joongang:
+        press = "중앙일보"
+    elif className == Joseon:
+        press = "조선일보"
+    elif className == Yeonhap:
+        press = "연합뉴스"
+    elif className == Donga:
+        press = "동아일보"
+    else:
+        press = "한국일보"
+
     for post in posts:
         data.append(
             {
@@ -46,6 +68,7 @@ def function(className, request):
                 "date": post.date,
                 "url": post.url,
                 "reporter": post.reporter,
+                "press": press,
                 "visible": False,
             }
         )
