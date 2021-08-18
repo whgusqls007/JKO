@@ -18,10 +18,10 @@ class Joseon(CrawlingDriver):
     def __init__(self):
         CrawlingDriver.__init__(self)
         self.url = {
+            "sport": "https://www.chosun.com/sports/",
             "politics": "https://www.chosun.com/politics/",
             "economy": "https://www.chosun.com/economy/",
             "society": "https://www.chosun.com/national/",
-            "sport": "https://www.chosun.com/sports/",
         }
         self.login()
 
@@ -43,13 +43,21 @@ class Joseon(CrawlingDriver):
             for i in range(1, 10):
                 self.getSite(self.url[category])
                 try:
-                    article = self.getElement(
-                        f"//*[@id='main']/div[3]/section/div/div/div/div[{i}]/div/div/div/div[1]/div[2]/div[1]/a"
-                    )
+                    if(category != "sport"):
+                        article = self.getElement(
+                            f"//*[@id='main']/div[3]/section/div/div/div/div[{i}]/div/div/div/div[1]/div[2]/div[1]/a"
+                        )
+                    else:  
+                        article = self.getElement(
+                            f"//*[@id='main']/div[6]/section/div/div/div/div[{i}]/div/div/div/div[1]/div[1]/div[1]/a"
+                        )
                 except:
                     continue
 
                 title = article.text
+
+                if "[사진]" in title or "[포토]" in title:
+                    continue
 
                 article.click()
 

@@ -52,33 +52,42 @@ class Crawling:
                 self.articles.clear()
 
                 if col == "api_busan":
+                    continue
                     subClass = Busan()
                     print("\n\n부산\n\n")
                 elif col == "api_herald":
+                    continue
                     subClass = Herald()
                     print("\n\n헤럴드\n\n")
                 elif col == "api_nocut":
+                    continue
                     subClass = Nocut()
                     print("\n\n노컷\n\n")
                 elif col == "api_ohmynews":
+                    continue
                     subClass = Ohmynews()
                     print("\n\n오마이\n\n")
                 elif col == "api_wikitree":
+                    continue
                     subClass = Wiki()
                     print("\n\n위키\n\n")
                 elif col == "api_donga":
+                    continue
                     subClass = Donga()
                     print("\n\n동아\n\n")
                 elif col == "api_hangook":
+                    continue
                     subClass = Hangook()
                     print("\n\n한국\n\n")
                 elif col == "api_joseon":
                     subClass = Joseon()
                     print("\n\n조선\n\n")
                 elif col == "api_yeonhap":
+                    continue
                     subClass = Yeonhap()
                     print("\n\n연합\n\n")
                 elif col == "api_joongang":
+                    continue
                     subClass = Joongang()
                     print("\n\n중앙\n\n")
 
