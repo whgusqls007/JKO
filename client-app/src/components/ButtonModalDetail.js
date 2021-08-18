@@ -30,22 +30,9 @@ const ButtonModalDetail = (props) => {
 		getItemFromAsync(props.name).then((data) => {
 			if (data !== null) {
 				if (data.saved === props.name && isSelected === false) {
-					setItemToAsync(props.name, { saved: false }).then(() => {
-						Toast.show(
-							props.pressName + " 구독을 취소하였습니다.",
-							{
-								duration: Toast.durations.SHORT,
-							}
-						);
-					});
+					setItemToAsync(props.name, { saved: false });
 				} else if (data.saved === false && isSelected === true) {
-					setItemToAsync(props.name, { saved: props.name }).then(
-						() => {
-							Toast.show(props.pressName + " 구독 하였습니다.", {
-								duration: Toast.durations.SHORT,
-							});
-						}
-					);
+					setItemToAsync(props.name, { saved: props.name });
 				} else if (data.saved === false && isSelected === false) {
 					setItemToAsync(props.name, { saved: false }).then(() => {});
 				} else if (data.saved === props.name && isSelected === true) {
