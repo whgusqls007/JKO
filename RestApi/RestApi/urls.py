@@ -29,4 +29,5 @@ urlpatterns = [
     path("read_joongang/", views.read_joongang),
     path("read_joseon/", views.read_joseon),
     path("read_hangook/", views.read_hangook),
+    path("read_subs/", views.read_subs)
 ]

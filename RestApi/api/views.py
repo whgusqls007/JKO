@@ -17,7 +17,7 @@ import json
 
 
 @csrf_exempt
-def function(className, request):
+def function(className, request, press):
     body = json.loads(request.body)
     first = body["first"]
     last = body["last"]
@@ -36,27 +36,6 @@ def function(className, request):
         ).order_by("-date")[first:last]
 
     data = []
-    press = ""
-    if className == busan:
-        press = "부산일보"
-    elif className == Ohmynews:
-        press = "오마이뉴스"
-    elif className == Wikitree:
-        press = "위키트리"
-    elif className == Herald:
-        press = "헤럴드경졔"
-    elif className == Nocut:
-        press = "노컷뉴스"
-    elif className == Joongang:
-        press = "중앙일보"
-    elif className == Joseon:
-        press = "조선일보"
-    elif className == Yeonhap:
-        press = "연합뉴스"
-    elif className == Donga:
-        press = "동아일보"
-    else:
-        press = "한국일보"
 
     for post in posts:
         data.append(
@@ -77,49 +56,131 @@ def function(className, request):
 
 @csrf_exempt
 def read_busan(request):
-    return HttpResponse(function(busan, request))
+    return HttpResponse(function(busan, request, "부산일보"))
 
 
 @csrf_exempt
 def read_ohmynews(request):
-    return HttpResponse(function(Ohmynews, request))
+    return HttpResponse(function(Ohmynews, request, "오마이뉴스"))
 
 
 @csrf_exempt
 def read_wikitree(request):
-    return HttpResponse(function(Wikitree, request))
+    return HttpResponse(function(Wikitree, request, "위키트리"))
 
 
 @csrf_exempt
 def read_herald(request):
-    return HttpResponse(function(Herald, request))
+    return HttpResponse(function(Herald, request, "헤럴드경제"))
 
 
 @csrf_exempt
 def read_nocut(request):
-    return HttpResponse(function(Nocut, request))
+    return HttpResponse(function(Nocut, request, "노컷뉴스"))
 
 
 @csrf_exempt
 def read_donga(request):
-    return HttpResponse(function(Donga, request))
+    return HttpResponse(function(Donga, request, "동아일보"))
 
 
 @csrf_exempt
 def read_yeonhap(request):
-    return HttpResponse(function(Yeonhap, request))
+    return HttpResponse(function(Yeonhap, request, "연합뉴스"))
 
 
 @csrf_exempt
 def read_hangook(request):
-    return HttpResponse(function(Hangook, request))
+    return HttpResponse(function(Hangook, request, "한국일보"))
 
 
 @csrf_exempt
 def read_joongang(request):
-    return HttpResponse(function(Joongang, request))
+    return HttpResponse(function(Joongang, request, "중앙일보"))
 
 
 @csrf_exempt
 def read_joseon(request):
-    return HttpResponse(function(Joseon, request))
+    return HttpResponse(function(Joseon, request, "조선일보"))
+
+@csrf_exempt
+def read_subs(request):
+    return HttpResponse(function2(request))
+
+def function2(request):
+    body = json.loads(request.body)
+    first = body["first"]
+    last = body["last"]
+    classNames = body["classNames"]
+    classes = []
+    press = []
+    for className in classNames:
+        if className == "read_busan/":
+            classes.append(busan)
+            press.append("부산일보")
+        elif className == "read_donga/":
+            classes.append(Donga)
+            press.append("동아일보")
+        elif className == "read_hangook/":
+            classes.append(Hangook)
+            press.append("한국일보")
+        elif className == "read_herald/":
+            classes.append(Herald)
+            press.append("헤럴드경제")
+        elif className == "read_joongang/":
+            classes.append(Joongang)
+            press.append("중앙일보")
+        elif className == "read_joseon/":
+            classes.append(Joseon)
+            press.append("조선일보")
+        elif className == "read_nocut/":
+            classes.append(Nocut)
+            press.append("노컷뉴스")
+        elif className == "read_ohmynews/":
+            classes.append(Ohmynews)
+            press.append("오마이뉴스")
+        elif className == "read_wikitree/":
+            classes.append(Wikitree)
+            press.append("위키트리")
+        else:
+            classes.append(Yeonhap)
+            press.append("연합뉴스")
+    
+    data = []
+
+    for i in range(len(classes)):
+        posts = classes[i].objects.order_by("-date")[first:last]
+        if body["text"] != "":
+            posts = classes[i].objects.filter(title__contains=body["text"]).order_by(
+                "-date"
+            )[first:last]
+        if body["category"] != "All":
+            posts = classes[i].objects.filter(category=body["category"]).order_by("-date")[
+                first:last
+            ]
+        if body["category"] != "All" and body["text"] != "":
+            posts = classes[i].objects.filter(
+                title__contains=body["text"], category=body["category"]
+            ).order_by("-date")[first:last]
+
+        
+        for post in posts:
+            data.append(
+                {
+                    "id": str(post._id),
+                    "title": post.title,
+                    "mainText": post.mainText,
+                    "category": post.category,
+                    "date": post.date,
+                    "url": post.url,
+                    "reporter": post.reporter,
+                    "press": press[i],
+                    "visible": False,
+                }
+            )
+    
+    data = sorted(data, key=lambda x : x["date"])
+
+    return json.dumps(data)
+
+    
