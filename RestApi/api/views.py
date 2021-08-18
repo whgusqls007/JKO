@@ -15,10 +15,28 @@ import json
 
 # Create your views here.
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 @csrf_exempt
 def function(className, request, press):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    print("IP :", ip)
+
     body = json.loads(request.body)
+    
+    if "#" in body["text"] or "||" in body["text"]:
+        return json.dumps([])
+
     first = body["first"]
     last = body["last"]
     posts = className.objects.order_by("-date")[first:last]
@@ -108,7 +126,18 @@ def read_subs(request):
     return HttpResponse(function2(request))
 
 def function2(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    print("IP :", ip)
+
     body = json.loads(request.body)
+
+    if "#" in body["text"] or "||" in body["text"]:
+        return json.dumps([])
+
     first = body["first"]
     last = body["last"]
     classNames = body["classNames"]
@@ -179,7 +208,7 @@ def function2(request):
                 }
             )
     
-    data = sorted(data, key=lambda x : x["date"])
+    data = sorted(data, reverse=True, key=lambda x : x["date"])
 
     return json.dumps(data)
 
