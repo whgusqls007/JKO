@@ -2,7 +2,7 @@ from CrawlingModule import CrawlingDriver
 import time
 import json
 
-with open("Crawling/secret.json", "r") as f:
+with open("/home/whgusqls007/JKO/Crawling/secret.json", "r") as f:
     secrets = json.loads(f.read())
 
 
@@ -12,8 +12,6 @@ def get_secret(setting, secrets=secrets):
 
 ID = get_secret("JoseonID")
 PW = get_secret("JoseonPW")
-print(ID)
-print(PW)
 
 
 class Joseon(CrawlingDriver):

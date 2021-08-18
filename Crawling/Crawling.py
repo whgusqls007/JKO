@@ -14,7 +14,7 @@ import random
 
 import json
 
-with open("Crawling/secret.json", "r") as f:
+with open("/home/whgusqls007/JKO/Crawling/secret.json", "r") as f:
     secrets = json.loads(f.read())
 
 
@@ -52,31 +52,24 @@ class Crawling:
                 self.articles.clear()
 
                 if col == "api_busan":
-                    continue
                     subClass = Busan()
                     print("\n\n부산\n\n")
                 elif col == "api_herald":
-                    continue
                     subClass = Herald()
                     print("\n\n헤럴드\n\n")
                 elif col == "api_nocut":
-                    continue
                     subClass = Nocut()
                     print("\n\n노컷\n\n")
                 elif col == "api_ohmynews":
-                    continue
                     subClass = Ohmynews()
                     print("\n\n오마이\n\n")
                 elif col == "api_wikitree":
-                    continue
                     subClass = Wiki()
                     print("\n\n위키\n\n")
                 elif col == "api_donga":
-                    continue
                     subClass = Donga()
                     print("\n\n동아\n\n")
                 elif col == "api_hangook":
-                    continue
                     subClass = Hangook()
                     print("\n\n한국\n\n")
                 elif col == "api_joseon":
