@@ -27,7 +27,7 @@ const Wiki = (props) => {
 			} else {
 				setFromFirst(1);
 			}
-			props.navigation.goBack();
+			props.navigation.navigate("Main");
 			return true;
 		};
 

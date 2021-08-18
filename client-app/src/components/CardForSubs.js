@@ -116,6 +116,7 @@ const CardComponentForSubs = (props) => {
 					return Item(item);
 				}}
 				onRefresh={() => {
+					setData([]);
 					getUrl().then((urls) => {
 						loadDataForSubs(
 							props.pressURL,
@@ -149,7 +150,7 @@ const CardComponentForSubs = (props) => {
 						url
 					);
 				}}
-				onEndReachedThreshold={1}
+				onEndReachedThreshold={0.9}
 				ref={flatListRef}
 			/>
 		</View>

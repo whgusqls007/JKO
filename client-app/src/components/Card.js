@@ -106,6 +106,7 @@ const CardComponent = (props) => {
 					return Item(item);
 				}}
 				onRefresh={() => {
+					setData([]);
 					loadData(
 						props.pressURL,
 						props.search,
