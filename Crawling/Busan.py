@@ -65,7 +65,7 @@ class Busan(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": date,
+                        "date": date[0:10] + " " + date[12:17],
                     }
                 )
                 print(
@@ -76,7 +76,7 @@ class Busan(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": date,
+                        "date": date[0:10] + " " + date[12:17],
                     }
                 )
 

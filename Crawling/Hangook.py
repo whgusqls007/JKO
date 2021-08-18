@@ -39,23 +39,25 @@ class Hangook(CrawlingDriver):
                     ).text
                 except:
                     continue
-
-                while True:
-                    try:
-                        article.click()
-                        if self.driver.current_url != self.url[category]:
-                            break
-                    except:
-                        self.driver.execute_script(
-                            "window.scrollTo(0, document.body.scrollHeight);"
-                        )
-                        self.getSite(self.url[category])
-                        self.driver.execute_script(
-                            "window.scrollTo(0, document.body.scrollHeight);"
-                        )
-                        article = self.getElement(
-                            f"//*[@id='section-bottom-article-list']/li[{i}]/div[1]/h4/a"
-                        )
+                try:
+                    while True:
+                        try:
+                            article.click()
+                            if self.driver.current_url != self.url[category]:
+                                break
+                        except:
+                            self.driver.execute_script(
+                                "window.scrollTo(0, document.body.scrollHeight);"
+                            )
+                            self.getSite(self.url[category])
+                            self.driver.execute_script(
+                                "window.scrollTo(0, document.body.scrollHeight);"
+                            )
+                            article = self.getElement(
+                                f"//*[@id='section-bottom-article-list']/li[{i}]/div[1]/h4/a"
+                            )
+                except:
+                    continue
 
                 time.sleep(2)
 
@@ -67,6 +69,8 @@ class Hangook(CrawlingDriver):
                 url = self.driver.current_url
 
                 mainText = mainText.replace("\n", " ")
+
+                date = date.replace(".", "-")
 
                 self.articles.append(
                     {

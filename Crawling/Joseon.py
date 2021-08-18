@@ -83,6 +83,8 @@ class Joseon(CrawlingDriver):
 
                 mainText = mainText.replace("\n", " ")
 
+                date = date.replace(".", "-")
+
                 self.articles.append(
                     {
                         "_id": None,

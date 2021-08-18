@@ -66,7 +66,7 @@ class Yeonhap(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": date,
+                        "date": "2021-" + date,
                     }
                 )
                 print(
@@ -77,7 +77,7 @@ class Yeonhap(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": date,
+                        "date": "2021-" + date,
                     }
                 )
         return self.articles

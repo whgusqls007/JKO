@@ -114,7 +114,7 @@ class Crawling:
                 continue
 
     def deleteAll(self):
-        for i in range(8):
+        for i in range(10):
             self.col = self.db[self.colList[i]]
             self.col.delete_many({})
 
