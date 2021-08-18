@@ -48,35 +48,28 @@ const CardComponentForSubs = (props) => {
 
 	useEffect(() => {
 		getUrl().then((urls) => {
-			for (let i = 0; i < urls.length; i++) {
-				loadDataForSubs(
-					urls[i],
-					props.search,
-					props.category,
-					setLoading,
-					setData,
-					data
-				);
-			}
+			loadDataForSubs(
+				props.pressURL,
+				props.search,
+				props.category,
+				setData,
+				setLoading,
+				urls
+			);
 			setUrl(urls);
 		});
-		setFirstParam(5);
-		setSecondParam(9);
 	}, []);
 
 	useEffect(() => {
-		setLoading(true);
 		getUrl().then((urls) => {
-			for (let i = 0; i < urls.length; i++) {
-				loadDataForSubs(
-					urls[i],
-					props.search,
-					props.category,
-					setLoading,
-					setData,
-					data
-				);
-			}
+			loadDataForSubs(
+				props.pressURL,
+				props.search,
+				props.category,
+				setData,
+				setLoading,
+				urls
+			);
 			setUrl(urls);
 		});
 		setFirstParam(5);
@@ -117,40 +110,43 @@ const CardComponentForSubs = (props) => {
 				style={{ width: "100%" }}
 				data={data}
 				renderItem={(item) => {
-					return Item(item, data, setData);
+					return Item(item);
 				}}
 				onRefresh={() => {
-					for (let i = 0; i < url.length; i++) {
+					getUrl().then((urls) => {
 						loadDataForSubs(
-							url[i],
+							props.pressURL,
 							props.search,
 							props.category,
-							setLoading,
 							setData,
-							data
+							setLoading,
+							urls
 						);
-					}
+						setUrl(urls);
+					});
+					setFirstParam(5);
+					setSecondParam(9);
+					toTop(flatListRef);
 				}}
 				refreshing={loading}
 				keyExtractor={(item) => item.id}
 				onEndReached={() => {
 					setLoading(true);
-					for (let i = 0; i < url.length; i++) {
-						loadExtraDataForSubs(
-							url[i],
-							data,
-							firstParam,
-							secondParam,
-							setLoading,
-							prevText,
-							prevCategory,
-							setData
-						);
-					}
-					setFirstParam(secondParam + 1);
-					setSecondParam(secondParam + 5);
+					loadExtraDataForSubs(
+						setData,
+						setFirstParam,
+						setSecondParam,
+						setLoading,
+						firstParam,
+						secondParam,
+						prevText,
+						prevCategory,
+						props.pressURL,
+						data,
+						url
+					);
 				}}
-				onEndReachedThreshold={0.9}
+				onEndReachedThreshold={1}
 				ref={flatListRef}
 			/>
 		</View>

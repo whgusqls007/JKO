@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import DrawerNavigator from "./src/navigators/DrawerScreen";
 import { SafeAreaView, Alert, BackHandler } from "react-native";
 import Constants from "expo-constants";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 const App = () => {
 	useEffect(() => {
@@ -30,10 +31,12 @@ const App = () => {
 
 	return (
 		<SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
-			<NavigationContainer independent={true}>
-				<DrawerNavigator />
-				<StatusBar style="auto" />
-			</NavigationContainer>
+			<RootSiblingParent>
+				<NavigationContainer independent={true}>
+					<DrawerNavigator />
+					<StatusBar style="auto" />
+				</NavigationContainer>
+			</RootSiblingParent>
 		</SafeAreaView>
 	);
 };

@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, CheckBox } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import RadioButton from "expo-radio-button";
-import {
-	getItemFromAsync,
-	setItemToAsync,
-	isEmpty,
-} from "../functions/functions";
+import { getItemFromAsync, setItemToAsync } from "../functions/functions";
+import Toast from "react-native-root-toast";
+
 const ButtonModalDetail = (props) => {
 	const [isSelected, setSelection] = useState(false);
 
@@ -28,54 +26,35 @@ const ButtonModalDetail = (props) => {
 		});
 	}, []);
 
-	console.log("Now: " + isSelected);
-
 	useEffect(() => {
 		getItemFromAsync(props.name).then((data) => {
-			console.log("!@#");
-			console.log(data);
-			console.log(isSelected);
 			if (data !== null) {
 				if (data.saved === props.name && isSelected === false) {
 					setItemToAsync(props.name, { saved: false }).then(() => {
-						getItemFromAsync(props.name).then((data2) => {
-							console.log("#@$$#!@");
-							console.log(data2);
-						});
+						Toast.show(
+							props.pressName + " 구독을 취소하였습니다.",
+							{
+								duration: Toast.durations.SHORT,
+							}
+						);
 					});
 				} else if (data.saved === false && isSelected === true) {
 					setItemToAsync(props.name, { saved: props.name }).then(
 						() => {
-							getItemFromAsync(props.name).then((data2) => {
-								console.log("#@$$#!@");
-								console.log(data2);
+							Toast.show(props.pressName + " 구독 하였습니다.", {
+								duration: Toast.durations.SHORT,
 							});
 						}
 					);
 				} else if (data.saved === false && isSelected === false) {
-					setItemToAsync(props.name, { saved: false }).then(() => {
-						getItemFromAsync(props.name).then((data2) => {
-							console.log("#@$$#!@");
-							console.log(data2);
-						});
-					});
+					setItemToAsync(props.name, { saved: false }).then(() => {});
 				} else if (data.saved === props.name && isSelected === true) {
 					setItemToAsync(props.name, { saved: props.name }).then(
-						() => {
-							getItemFromAsync(props.name).then((data2) => {
-								console.log("#@$$#!@");
-								console.log(data2);
-							});
-						}
+						() => {}
 					);
 				}
 			} else {
-				setItemToAsync(props.name, { saved: false }).then(() => {
-					getItemFromAsync(props.name).then((data2) => {
-						console.log("#@$$#!@");
-						console.log(data2);
-					});
-				});
+				setItemToAsync(props.name, { saved: false });
 			}
 		});
 	}, [isSelected]);

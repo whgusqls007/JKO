@@ -50,6 +50,7 @@ const Joongang = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_joongang/"
+				pressName="중앙일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}

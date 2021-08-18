@@ -6,6 +6,7 @@ import CardComponentForSubs from "../components/CardForSubs";
 import { CategoryLabel } from "../functions/functions";
 import ButtonModalForSubs from "../components/ButtonModalForSubs";
 import ScreenHeaderForMain from "../components/ScreenHeaderForMain";
+import Toast from "react-native-root-toast";
 
 const Subscribe = (props) => {
 	const [visible1, setVisible1] = useState(false);
@@ -40,6 +41,12 @@ const Subscribe = (props) => {
 	}, []);
 
 	useEffect(() => {
+		Toast.show("구독한 언론사가 보이지 않으면 새로고침을 해주세요.", {
+			duration: Toast.durations.LONG,
+		});
+	}, []);
+
+	useEffect(() => {
 		CategoryLabel(current, setCategoryLabel);
 	}, [current]);
 	return (
@@ -70,6 +77,7 @@ const Subscribe = (props) => {
 				reset={reset}
 			/>
 			<CardComponentForSubs
+				pressURL={setting["URL"] + "read_subs/"}
 				search={text}
 				category={current}
 				fromFirst={fromFirst}

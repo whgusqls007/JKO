@@ -51,6 +51,7 @@ const Yeonhap = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_yeonhap/"
+				pressName="연합뉴스"
 			/>
 			<SearchModal
 				visibleValue={visible2}

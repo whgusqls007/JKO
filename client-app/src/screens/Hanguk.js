@@ -50,6 +50,7 @@ const Hangook = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_hangook/"
+				pressName="한국일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}

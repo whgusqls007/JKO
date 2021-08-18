@@ -51,6 +51,7 @@ const Nocut = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_nocut/"
+				pressName="노컷뉴스"
 			/>
 			<SearchModal
 				visibleValue={visible2}

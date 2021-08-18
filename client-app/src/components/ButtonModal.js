@@ -16,6 +16,7 @@ const ButtonModal = (props) => {
 				FsetCurrent={props.FsetCurrent}
 				currentValue={props.currentValue}
 				name={props.name}
+				pressName={props.pressName}
 			/>
 		</Modal>
 	);

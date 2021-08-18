@@ -51,6 +51,7 @@ const Wiki = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_wikitree/"
+				pressName="위키트리"
 			/>
 			<SearchModal
 				visibleValue={visible2}

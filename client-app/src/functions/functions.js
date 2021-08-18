@@ -67,6 +67,7 @@ export const setFalse = (ID, data, setData) => {
 					reporter: item.reporter,
 					date: item.date,
 					url: item.url,
+					press: item.press,
 					visible: false,
 				};
 			} else {
@@ -87,6 +88,7 @@ export const setTrue = (ID, data, setData) => {
 					reporter: item.reporter,
 					date: item.date,
 					url: item.url,
+					press: item.press,
 					visible: true,
 				};
 			} else {
@@ -115,7 +117,7 @@ export const getUrl = () => {
 		for (let i = 0; i < 10; i++) {
 			getItemFromAsync(list[i]).then((url) => {
 				if (url !== null && url.saved !== false) {
-					urls.push(setting["URL"] + url.saved);
+					urls.push(url.saved);
 				}
 				if (i === 9) {
 					resolve(urls);
@@ -191,11 +193,10 @@ export const loadDataForSubs = (
 	URL,
 	search,
 	category,
-	setLoading,
 	setData,
-	data
+	setLoading,
+	urls
 ) => {
-	let newData = [];
 	fetch(URL, {
 		method: "POST",
 		headers: {
@@ -207,28 +208,30 @@ export const loadDataForSubs = (
 			last: 4,
 			text: search,
 			category: category,
+			classNames: urls,
 		}),
 	})
 		.then((response) => response.json())
 		.then((loadedData) => {
-			newData = data.concat(loadedData);
-			setData(newData);
+			setData(loadedData);
 			setLoading(false);
 		})
 		.catch((e) => console.log(e));
 };
 
 export const loadExtraDataForSubs = (
-	URL,
-	data,
+	setData,
+	setFirstParam,
+	setSecondParam,
+	setLoading,
 	firstParam,
 	secondParam,
-	setLoading,
 	prevText,
 	prevCategory,
-	setData
+	URL,
+	data,
+	urls
 ) => {
-	let newData = data;
 	fetch(URL, {
 		method: "POST",
 		headers: {
@@ -240,12 +243,15 @@ export const loadExtraDataForSubs = (
 			last: secondParam,
 			text: prevText,
 			category: prevCategory,
+			classNames: urls,
 		}),
 	})
 		.then((response) => response.json())
 		.then((loadedData) => {
-			newData = newData.concat(loadedData);
+			let newData = data.concat(loadedData);
 			setData(newData);
+			setFirstParam(secondParam + 1);
+			setSecondParam(secondParam + 5);
 			setLoading(false);
 		})
 		.catch((e) => console.log(e));

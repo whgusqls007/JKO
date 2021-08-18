@@ -50,6 +50,7 @@ const Joseon = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_joseon/"
+				pressName="조선일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}

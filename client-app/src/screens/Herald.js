@@ -50,6 +50,7 @@ const Herald = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_herald/"
+				pressName="헤럴드경제"
 			/>
 			<SearchModal
 				visibleValue={visible2}

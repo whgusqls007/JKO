@@ -50,6 +50,7 @@ const Busan = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_busan/"
+				pressName="부산일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}

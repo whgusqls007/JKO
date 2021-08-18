@@ -51,6 +51,7 @@ const Ohmynews = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_ohmynews/"
+				pressName="오마이뉴스"
 			/>
 			<SearchModal
 				visibleValue={visible2}

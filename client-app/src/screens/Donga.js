@@ -51,6 +51,7 @@ const Donga = (props) => {
 				currentValue={current}
 				visibleValue={visible1}
 				name="read_donga/"
+				pressName="동아일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}
