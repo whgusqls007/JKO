@@ -12,9 +12,14 @@ from Joongang import Joongang
 from pymongo import MongoClient
 import random
 
-import os
+import json
 
-DBURI = os.getenv("DBURI")
+with open("/home/whgusqls007/JKO/Crawling/secret.json", "r") as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    return secrets[setting]
 
 
 class Crawling:
@@ -36,7 +41,7 @@ class Crawling:
         self.articles = []
 
     def connectDB(self):
-        client = MongoClient(DBURI)
+        client = MongoClient(get_secret("DBURI"))
         db = client["Donga"]
         return db
 
@@ -48,24 +53,34 @@ class Crawling:
 
                 if col == "api_busan":
                     subClass = Busan()
+                    print("\n\n부산\n\n")
                 elif col == "api_herald":
                     subClass = Herald()
+                    print("\n\n헤럴드\n\n")
                 elif col == "api_nocut":
                     subClass = Nocut()
+                    print("\n\n노컷\n\n")
                 elif col == "api_ohmynews":
                     subClass = Ohmynews()
+                    print("\n\n오마이\n\n")
                 elif col == "api_wikitree":
                     subClass = Wiki()
+                    print("\n\n위키\n\n")
                 elif col == "api_donga":
                     subClass = Donga()
+                    print("\n\n동아\n\n")
                 elif col == "api_hangook":
                     subClass = Hangook()
+                    print("\n\n한국\n\n")
                 elif col == "api_joseon":
                     subClass = Joseon()
+                    print("\n\n조선\n\n")
                 elif col == "api_yeonhap":
                     subClass = Yeonhap()
+                    print("\n\n연합\n\n")
                 elif col == "api_joongang":
                     subClass = Joongang()
+                    print("\n\n중앙\n\n")
 
                 self.articles = subClass.crawling()
                 subClass.quit()
@@ -99,7 +114,7 @@ class Crawling:
                 continue
 
     def deleteAll(self):
-        for i in range(8):
+        for i in range(10):
             self.col = self.db[self.colList[i]]
             self.col.delete_many({})
 

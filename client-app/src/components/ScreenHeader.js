@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Text, Platform } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Text, Platform, CheckBox } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const ScreenHeader = (props) => {
@@ -15,12 +15,30 @@ const ScreenHeader = (props) => {
 			<Text style={styles.text}>
 				{props.screenName} : {props.categoryLabelValue}
 			</Text>
+
 			<View style={{ flexDirection: "row" }}>
+				<AntDesign.Button
+					name="retweet"
+					size={24}
+					color="black"
+					backgroundColor="white"
+					style={{ marginleft: 3, marginRight: 0 }}
+					onPress={() => {
+						if (props.reset === 0) {
+							props.FsetReset(1);
+						} else {
+							props.FsetReset(0);
+						}
+						props.FsetVisible1(false);
+						props.FsetVisible2(false);
+					}}
+				/>
 				<AntDesign.Button
 					name="search1"
 					size={24}
 					color="black"
 					backgroundColor="white"
+					style={{ marginleft: 0, marginRight: 0 }}
 					onPress={() => {
 						props.FsetVisible2(true);
 					}}
@@ -30,6 +48,7 @@ const ScreenHeader = (props) => {
 					size={24}
 					color="black"
 					backgroundColor="white"
+					style={{ marginleft: 0, marginRight: 3 }}
 					onPress={() => props.FsetVisible1(true)}
 				/>
 			</View>

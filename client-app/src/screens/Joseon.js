@@ -5,7 +5,7 @@ import ButtonModal from "../components/ButtonModal";
 import SearchModal from "../components/SearchModal";
 import ScreenHeader from "../components/ScreenHeader";
 import setting from "../../setting.json";
-
+import { CategoryLabel } from "../functions/functions";
 const Joseon = (props) => {
 	const [visible1, setVisible1] = useState(false);
 	const [visible2, setVisible2] = useState(false);
@@ -14,6 +14,7 @@ const Joseon = (props) => {
 	const [tempText, setTempText] = useState("");
 	const [fromFirst, setFromFirst] = useState(1);
 	const [categoryLabel, setCategoryLabel] = useState("모두");
+	const [reset, setReset] = useState(0);
 
 	useEffect(() => {
 		const backAction = () => {
@@ -25,7 +26,7 @@ const Joseon = (props) => {
 			} else {
 				setFromFirst(1);
 			}
-			props.navigation.goBack();
+			props.navigation.navigate("Main");
 			return true;
 		};
 
@@ -38,17 +39,7 @@ const Joseon = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (current === "All") {
-			setCategoryLabel("모두");
-		} else if (current === "sports") {
-			setCategoryLabel("스포츠");
-		} else if (current === "politic") {
-			setCategoryLabel("정치");
-		} else if (current === "society") {
-			setCategoryLabel("사회");
-		} else {
-			setCategoryLabel("경제");
-		}
+		CategoryLabel(current, setCategoryLabel);
 	}, [current]);
 
 	return (
@@ -58,6 +49,8 @@ const Joseon = (props) => {
 				FsetCurrent={setCurrent}
 				currentValue={current}
 				visibleValue={visible1}
+				name="read_joseon/"
+				pressName="조선일보"
 			/>
 			<SearchModal
 				visibleValue={visible2}
@@ -66,6 +59,8 @@ const Joseon = (props) => {
 				tempTextValue={tempText}
 				FsetText={setText}
 				FsetVisible={setVisible2}
+				FsetReset={setReset}
+				reset={reset}
 			/>
 			<ScreenHeader
 				screenName="조선일보"
@@ -73,13 +68,16 @@ const Joseon = (props) => {
 				FsetVisible2={setVisible2}
 				categoryLabelValue={categoryLabel}
 				navigation={props.navigation}
+				FsetReset={setReset}
+				reset={reset}
 			/>
 			<CardComponent
-				pressName="joseon"
+				pressName="read_joseon/"
 				pressURL={setting["URL"] + "read_joseon/"}
 				search={text}
 				category={current}
 				fromFirst={fromFirst}
+				reset={reset}
 			/>
 		</View>
 	);

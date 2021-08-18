@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import CardComponent from "../components/Card";
-import ButtonModal from "../components/ButtonModal";
 import SearchModal from "../components/SearchModal";
-import ScreenHeader from "../components/ScreenHeader";
+import ScreenHeaderForMain from "../components/ScreenHeaderForMain";
 import setting from "../../setting.json";
-
+import { CategoryLabel } from "../functions/functions";
+import ButtonModalDetailForSubs from "../components/ButtonModalDetailForSubs";
+import ButtonModalForSubs from "../components/ButtonModalForSubs";
 const Main = (props) => {
 	const [visible1, setVisible1] = useState(false);
 	const [visible2, setVisible2] = useState(false);
@@ -14,24 +15,15 @@ const Main = (props) => {
 	const [tempText, setTempText] = useState("");
 	const [fromFirst, setFromFirst] = useState(1);
 	const [categoryLabel, setCategoryLabel] = useState("모두");
+	const [reset, setReset] = useState(0);
 
 	useEffect(() => {
-		if (current === "All") {
-			setCategoryLabel("모두");
-		} else if (current === "sports") {
-			setCategoryLabel("스포츠");
-		} else if (current === "politic") {
-			setCategoryLabel("정치");
-		} else if (current === "society") {
-			setCategoryLabel("사회");
-		} else {
-			setCategoryLabel("경제");
-		}
+		CategoryLabel(current, setCategoryLabel);
 	}, [current]);
 
 	return (
 		<View style={styles.container}>
-			<ButtonModal
+			<ButtonModalForSubs
 				FsetVisible={setVisible1}
 				FsetCurrent={setCurrent}
 				currentValue={current}
@@ -44,13 +36,17 @@ const Main = (props) => {
 				tempTextValue={tempText}
 				FsetText={setText}
 				FsetVisible={setVisible2}
+				FsetReset={setReset}
+				reset={reset}
 			/>
-			<ScreenHeader
+			<ScreenHeaderForMain
 				screenName="메인화면"
 				FsetVisible1={setVisible1}
 				FsetVisible2={setVisible2}
 				categoryLabelValue={categoryLabel}
 				navigation={props.navigation}
+				FsetReset={setReset}
+				reset={reset}
 			/>
 			<CardComponent
 				pressName="Main"
@@ -58,6 +54,7 @@ const Main = (props) => {
 				search={text}
 				category={current}
 				fromFirst={fromFirst}
+				reset={reset}
 			/>
 		</View>
 	);

@@ -12,6 +12,7 @@ import Ohmynews from "../screens/Ohmynews";
 import Wiki from "../screens/Wiki";
 import Yeonhap from "../screens/Yeonhap";
 import Main from "../screens/Main";
+import Subscribe from "../screens/Subscribe";
 
 const Drawer = createDrawerNavigator();
 
@@ -72,6 +73,11 @@ const DrawerNavigator = ({ navigation }) => {
 				name="Ohmynews"
 				component={Ohmynews}
 				options={{ drawerLabel: "오마이뉴스" }}
+			/>
+			<Drawer.Screen
+				name="Subs"
+				component={Subscribe}
+				options={{ drawerLabel: "구독한 언론사" }}
 			/>
 		</Drawer.Navigator>
 	);

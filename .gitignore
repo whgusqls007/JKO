@@ -1,6 +1,8 @@
 .env
 client-app/setting.json
 secret.json
+*.pem
+nohup.out
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

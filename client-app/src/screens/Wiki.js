@@ -5,6 +5,7 @@ import ButtonModal from "../components/ButtonModal";
 import SearchModal from "../components/SearchModal";
 import ScreenHeader from "../components/ScreenHeader";
 import setting from "../../setting.json";
+import { CategoryLabel } from "../functions/functions";
 
 const Wiki = (props) => {
 	const [visible1, setVisible1] = useState(false);
@@ -14,6 +15,7 @@ const Wiki = (props) => {
 	const [tempText, setTempText] = useState("");
 	const [fromFirst, setFromFirst] = useState(1);
 	const [categoryLabel, setCategoryLabel] = useState("모두");
+	const [reset, setReset] = useState(0);
 
 	useEffect(() => {
 		const backAction = () => {
@@ -25,7 +27,7 @@ const Wiki = (props) => {
 			} else {
 				setFromFirst(1);
 			}
-			props.navigation.goBack();
+			props.navigation.navigate("Main");
 			return true;
 		};
 
@@ -38,17 +40,7 @@ const Wiki = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (current === "All") {
-			setCategoryLabel("모두");
-		} else if (current === "sports") {
-			setCategoryLabel("스포츠");
-		} else if (current === "politic") {
-			setCategoryLabel("정치");
-		} else if (current === "society") {
-			setCategoryLabel("사회");
-		} else {
-			setCategoryLabel("경제");
-		}
+		CategoryLabel(current, setCategoryLabel);
 	}, [current]);
 
 	return (
@@ -58,6 +50,8 @@ const Wiki = (props) => {
 				FsetCurrent={setCurrent}
 				currentValue={current}
 				visibleValue={visible1}
+				name="read_wikitree/"
+				pressName="위키트리"
 			/>
 			<SearchModal
 				visibleValue={visible2}
@@ -66,6 +60,8 @@ const Wiki = (props) => {
 				tempTextValue={tempText}
 				FsetText={setText}
 				FsetVisible={setVisible2}
+				FsetReset={setReset}
+				reset={reset}
 			/>
 			<ScreenHeader
 				screenName="위키트리"
@@ -73,13 +69,16 @@ const Wiki = (props) => {
 				FsetVisible2={setVisible2}
 				categoryLabelValue={categoryLabel}
 				navigation={props.navigation}
+				FsetReset={setReset}
+				reset={reset}
 			/>
 			<CardComponent
-				pressName="wikitree"
+				pressName="read_wikitree/"
 				pressURL={setting["URL"] + "read_wikitree/"}
 				search={text}
 				category={current}
 				fromFirst={fromFirst}
+				reset={reset}
 			/>
 		</View>
 	);
