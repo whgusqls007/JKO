@@ -63,6 +63,7 @@ const CardComponentForSubs = (props) => {
 
 	useEffect(() => {
 		setLoading(true);
+		setData([]);
 		getUrl().then((urls) => {
 			loadDataForSubs(
 				props.pressURL,

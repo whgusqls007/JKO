@@ -57,6 +57,7 @@ const CardComponent = (props) => {
 	}, []);
 
 	useEffect(() => {
+		setData([]);
 		setLoading(true);
 		loadData(
 			props.pressURL,

@@ -1,9 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import setting from "../../setting.json";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Card } from "react-native-elements";
-import ArticleModal from "../components/ArticleModal";
-import React, { useEffect, useState } from "react";
 
 export const getItemFromAsync = (storageName) => {
 	if (isEmpty(storageName)) {
