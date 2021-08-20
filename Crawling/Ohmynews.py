@@ -15,7 +15,7 @@ class Ohmynews(CrawlingDriver):
     def crawling(self):
         self.articles.clear()
         for category in self.url:
-            for i in range(1, 10):
+            for i in range(1, 12):
                 self.getSite(self.url[category])
                 if category == "sport":
                     try:
@@ -31,11 +31,11 @@ class Ohmynews(CrawlingDriver):
                         reporterAndDate = self.getElement(
                             f"//*[@id='aspnetForm']/div[5]/section/div[2]/ul/li[{i}]/div/div/p[3]/a"
                         ).text
+                        print(reporterAndDate)
                     except:
                         continue
-
-                    reporter = reporterAndDate.split(") 2")[0] + ")"
-                    date = "2" + reporterAndDate.split(") 2")[1]
+                    reporter = reporterAndDate.split(" 21.")[0]
+                    date = "2021." + reporterAndDate.split(" 21.")[1]
                     try:
                         article.click()
                     except:
@@ -104,8 +104,10 @@ class Ohmynews(CrawlingDriver):
                         ).text
                     except:
                         continue
-                    reporter = reporterAndDate.split(")l2")[0] + ")"
-                    date = "2" + reporterAndDate.split(")l2")[1]
+                    print(reporterAndDate)
+                    reporter = reporterAndDate.split("l21.")[0]
+                    date = "2021." + reporterAndDate.split("l21.")[1]
+
                     try:
                         article.click()
                     except:
@@ -150,7 +152,7 @@ class Ohmynews(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": "20" + date,
+                        "date": date,
                     }
                 )
                 print(
@@ -161,7 +163,7 @@ class Ohmynews(CrawlingDriver):
                         "category": category,
                         "url": url,
                         "reporter": reporter,
-                        "date": "20" + date,
+                        "date": date,
                     }
                 )
 

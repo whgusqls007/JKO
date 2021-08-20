@@ -43,11 +43,11 @@ class Joseon(CrawlingDriver):
             for i in range(1, 10):
                 self.getSite(self.url[category])
                 try:
-                    if(category != "sport"):
+                    if category != "sport":
                         article = self.getElement(
                             f"//*[@id='main']/div[3]/section/div/div/div/div[{i}]/div/div/div/div[1]/div[2]/div[1]/a"
                         )
-                    else:  
+                    else:
                         article = self.getElement(
                             f"//*[@id='main']/div[6]/section/div/div/div/div[{i}]/div/div/div/div[1]/div[1]/div[1]/a"
                         )
