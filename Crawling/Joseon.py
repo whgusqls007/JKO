@@ -18,24 +18,24 @@ class Joseon(CrawlingDriver):
     def __init__(self):
         CrawlingDriver.__init__(self)
         self.url = {
-            "sport": "https://www.chosun.com/sports/",
             "politics": "https://www.chosun.com/politics/",
             "economy": "https://www.chosun.com/economy/",
             "society": "https://www.chosun.com/national/",
+            "sport": "https://www.chosun.com/sports/",
         }
         self.login()
 
     def login(self):
-        self.driver.get("https://www.chosun.com/subscribe/signin/")
-
-        time.sleep(3)
+        self.getSite("https://www.chosun.com/subscribe/signin/")
 
         self.driver.find_element_by_xpath("//*[@id='username']").send_keys(ID)
         self.driver.find_element_by_xpath("//*[@id='subsPassword']").send_keys(PW)
         self.driver.find_element_by_xpath(
             "//*[@id='fusion-app']/div[2]/div/div/div[5]/div[1]/label"
         ).click()
+        time.sleep(2)
         self.driver.find_element_by_xpath("//*[@id='subsSignIn']").click()
+        time.sleep(2)
 
     def crawling(self):
         self.articles.clear()
@@ -65,15 +65,22 @@ class Joseon(CrawlingDriver):
 
                 try:
                     reporter = self.getElement(
-                        "//*[@id='fusion-app']/div[1]/div[2]/div/section/article/div[1]/div/a"
+                        "//*[@id='fusion-app']/div[1]/div[2]/div/section/article/div[1]/div/span"
                     ).text
                 except:
-                    continue
+                    try:
+                        reporter = self.getElement(
+                            "//*[@id='fusion-app']/div[1]/div[2]/div/section/article/div[1]/div/a"
+                        ).text
+                    except:
+                        continue
 
                 try:
                     date = self.getElement(
                         "//*[@id='fusion-app']/div[1]/div[2]/div/section/article/div[2]/span"
                     ).text[3:]
+                    if "|" in date:
+                        date = date.split("|")[0]
                 except:
                     continue
                 mainText = ""

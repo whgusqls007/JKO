@@ -87,6 +87,7 @@ class Crawling:
 
                 self.col = self.db[col]
                 self.insertDB()
+            break
 
     def insertDB(self):
         for article in self.articles:
