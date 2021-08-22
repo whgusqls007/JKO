@@ -34,7 +34,10 @@ class Nocut(CrawlingDriver):
                     continue
                 article.click()
                 time.sleep(2)
-                mainText = self.getElement("//*[@id='pnlContent']").text
+                try:
+                    mainText = self.getElement("//*[@id='pnlContent']").text
+                except:
+                    continue
 
                 try:
                     subText = self.getElement("//*[@id='pnlContent']/span").text
