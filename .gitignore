@@ -5,7 +5,6 @@ secret.json
 nohup.out
 old
 *.txt
-NLP/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
