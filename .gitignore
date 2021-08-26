@@ -1,5 +1,11 @@
-# Hyunbin Jo
-/.vscode
+.env
+client-app/setting.json
+secret.json
+*.pem
+nohup.out
+old
+*.txt
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
