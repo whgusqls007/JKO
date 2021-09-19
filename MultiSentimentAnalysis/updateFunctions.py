@@ -47,7 +47,7 @@ class updateFunctions:
                 # print(x) # 확인용
 
                 # 카테고리 마다 모델이 다르기 때문에 필터링 && emotion 없는 것만
-                if x['category'] == news_class:
+                if x['category'] == news_class and x['emotion'] == '':
                     id_list.append(x['_id'])
                     title_list.append(x['title'])
                     #cnt += 1
