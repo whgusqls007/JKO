@@ -35,6 +35,7 @@ class NLP:
         self.newData = []
         self.okt = Okt()
         self.vectorizer = CV(min_df=1)
+        self.contents_all = []
 
     def connectDB(self):
         db = MC(get_secret("DBURI"))["Donga"]
@@ -51,37 +52,24 @@ class NLP:
         contents_all = []
 
         for post in posts:
-
-            contents_all.append(
-                {
-                    "_id": post["_id"],
-                    "title": post["title"],
-                    "mainText": post["mainText"],
-                    "category": post["category"],
-                    "url": post["url"],
-                    "reporter": post["reporter"],
-                    "date": post["date"],
-                    "press": post["press"],
-                    "img": post["img"],
-                    "emotion": post["emotion"],
-                }
-            )
-            print(
-                {
-                    "_id": post["_id"],
-                    "title": post["title"],
-                    "mainText": post["mainText"],
-                    "category": post["category"],
-                    "url": post["url"],
-                    "reporter": post["reporter"],
-                    "date": post["date"],
-                    "press": post["press"],
-                    "img": post["img"],
-                    "emotion": post["emotion"],
-                }
-            )
+            dic = {
+                "_id": post["_id"],
+                "title": post["title"],
+                "mainText": post["mainText"],
+                "category": post["category"],
+                "url": post["url"],
+                "reporter": post["reporter"],
+                "date": post["date"],
+                "press": post["press"],
+                "img": post["img"],
+                "emotion": post["emotion"],
+            }
+            contents_all.append(dic)
+            print(dic)
             print("\n\n")
             contents_title.append(post["title"])
+            if not dic in self.contents_all:
+                self.contents_all.append(dic)
 
         return contents_all, contents_title
 
@@ -192,6 +180,7 @@ class NLP:
 
     def insertDB(self):
         col = self.db["api_clustering"]
+        print(self.contents_all)
         for newData in self.newData:
             newData = sorted(newData, key=lambda x: x["date"])
             keyList = []
@@ -277,8 +266,22 @@ class NLP:
                         }
                     )
 
+        for originalData in self.contents_all:
+            isClustered = False
+            for newData in self.newData:
+                if originalData in newData:
+                    isClustered = True
+                    break
+            if not isClustered:
+                isExist = None
+                isExist = col.find_one({"_id": originalData["_id"]})
+                if isExist:
+                    continue
+                col.insert_one(originalData)
+
     def startClustering(self):
         while True:
+            self.contents_all.clear()
             self.getDistance()
             self.clustring()
             self.insertDB()
