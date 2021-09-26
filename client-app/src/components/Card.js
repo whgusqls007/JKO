@@ -98,15 +98,27 @@ const CardComponent = (props) => {
               <Image source={{ uri: item.img }} style={styles.imageArea} />
             ) : null}
             <View style={styles.textArea}>
-              <Text style={{ fontSize: 20 }}>{item.title}</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                {item.title}
+              </Text>
               {!Array.isArray(item.url) ? (
-                <Text>
-                  {item.press}, {item.emotion}
-                </Text>
+                <>
+                  <Text style={{ fontWeight: 'bold' }}>{item.press}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    감정 : {item.emotion}
+                  </Text>
+                </>
               ) : (
-                <Text>
-                  {item.mainPress}, {item.emotion}
-                </Text>
+                <>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    {item.press.map((d) => {
+                      return d + '   ';
+                    })}
+                  </Text>
+                  <Text style={{ fontWeight: 'bold' }}>
+                    감정 : {item.emotion}
+                  </Text>
+                </>
               )}
               <Text></Text>
               <Text numberOfLines={3}>{item.mainText}</Text>

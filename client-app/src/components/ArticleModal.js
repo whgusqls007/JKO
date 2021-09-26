@@ -38,13 +38,23 @@ const ArticleModal = (props) => {
           <Text style={styles.titleSize}>{props.item.title}</Text>
           <Text />
           {!Array.isArray(props.item.url) ? (
-            <Text style={styles.titleSubElement}>
-              {props.item.press}, {props.item.emotion}
-            </Text>
+            <>
+              <Text style={styles.titleSubElement}>{props.item.press}</Text>
+              <Text style={{ fontWeight: 'bold' }}>
+                감정 : {props.item.emotion}
+              </Text>
+            </>
           ) : (
-            <Text style={styles.titleSubElement}>
-              {props.item.mainPress}, {props.item.emotion}
-            </Text>
+            <>
+              <Text style={styles.titleSubElement}>
+                {props.item.press.map((d) => {
+                  return d + '   ';
+                })}
+              </Text>
+              <Text style={styles.titleSubElement}>
+                감정 : {props.item.emotion}
+              </Text>
+            </>
           )}
           <Text style={styles.titleSubElement}>{props.item.date}</Text>
           <Text style={styles.titleSubElement}>{props.item.reporter}</Text>
@@ -114,9 +124,11 @@ const styles = StyleSheet.create({
   },
   titleSize: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   titleSubElement: {
-    fontSize: 13,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   articleSize: {
     fontSize: 16,
