@@ -9,6 +9,9 @@ class busan(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -22,6 +25,9 @@ class Ohmynews(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -35,6 +41,9 @@ class Wikitree(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -48,6 +57,9 @@ class Herald(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -61,6 +73,9 @@ class Nocut(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -74,6 +89,9 @@ class Joongang(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -87,6 +105,9 @@ class Yeonhap(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -100,6 +121,9 @@ class Donga(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -113,6 +137,9 @@ class Hangook(models.Model):
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -123,9 +150,12 @@ class Joseon(models.Model):
     title = models.TextField()
     mainText = models.TextField()
     category = models.TextField()
+    emotion = models.TextField()
     date = models.TextField()
     url = models.TextField()
     reporter = models.TextField()
+    press = models.TextField()
+    img = models.TextField()
 
     class Meta:
         ordering = ["-date"]
@@ -139,6 +169,11 @@ class Clustering(models.Model):
     category = models.TextField()
     articles = models.TextField()
     urls = models.TextField()
+    reporter = models.TextField()
+    press = models.TextField()
+    mainPress = models.TextField()
+    img = models.TextField()
+    emotion = models.TextField()
 
     class Meta:
         ordering = ["-date"]

@@ -12,6 +12,7 @@ from api.models import Clustering
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import django
 
 # Create your views here.
 
@@ -25,171 +26,185 @@ def get_client_ip(request):
     return ip
 
 
+def getPosts(body=None, className=None, flag="None"):
+    first = body["first"]
+    last = body["last"]
+    print(body["emotion"])
+    if body["emotion"] != "All":
+        if body["emotion"] == "neutral":
+            Emotion = "중립"
+        elif body["emotion"] == "positive":
+            Emotion = "긍정"
+        elif body["emotion"] == "negative":
+            Emotion = "부정"
+        elif body["emotion"] == "warm":
+            Emotion = "따뜻한"
+        elif body["emotion"] == "interesting":
+            Emotion = "신기한"
+        elif body["emotion"] == "shocking":
+            Emotion = "충격적인"
+        elif body["emotion"] == "sad":
+            Emotion = "슬픈"
+
+    posts = className.objects.order_by("-date")[first:last]
+
+    if body["text"] == "" and body["category"] != "All":
+        if body["emotion"] == "All":
+            posts = (
+                className.objects.filter(category=body["category"]).order_by("-date")[first:last],
+            )
+        else:
+            posts = (
+                className.objects.filter(category=body["category"], emotion=Emotion).order_by(
+                    "-date"
+                )[first:last],
+            )
+
+    elif body["text"] != "" and body["category"] == "All":
+        posts = className.objects.filter(title__contains=body["text"]).order_by("-date")[first:last]
+
+    elif body["text"] != "" and body["category"] != "All":
+        if body["emotion"] == "All":
+            posts = className.objects.filter(
+                title__contains=body["text"], category=body["category"]
+            ).order_by("-date")[first:last]
+        else:
+            posts = className.objects.filter(
+                title__contains=body["text"], category=body["category"], emotion=Emotion
+            ).order_by("-date")[first:last]
+
+    if type(posts) == tuple:
+        posts = posts[0]
+
+    return posts
+
+
+def getData(posts, flag="None"):
+    data = []
+    for post in posts:
+        if flag == "Main":
+            urls = []
+            press = []
+            for articles in post.articles:
+                urls.append(articles["url"])
+                press.append(articles["press"])
+            data.append(
+                {
+                    "id": str(post._id),
+                    "title": post.title,
+                    "mainText": post.mainText,
+                    "category": post.category,
+                    "date": post.date,
+                    "articles": post.articles,
+                    "url": urls,
+                    "press": press,
+                    "mainPress": post.mainPress,
+                    "reporter": post.reporter,
+                    "img": post.img,
+                    "emotion": post.emotion,
+                    "visible": False,
+                }
+            )
+        else:
+            data.append(
+                {
+                    "id": str(post._id),
+                    "title": post.title,
+                    "mainText": post.mainText,
+                    "category": post.category,
+                    "date": post.date,
+                    "url": post.url,
+                    "reporter": post.reporter,
+                    "press": post.press,
+                    "img": post.img,
+                    "emotion": post.emotion,
+                    "visible": False,
+                }
+            )
+    return data
+
+
 @csrf_exempt
-def function(className, request, press):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0]
-    else:
-        ip = request.META.get("REMOTE_ADDR")
-    print("IP :", ip)
+def function(className=None, request=None):
+    print("IP :", get_client_ip(request))
 
     body = json.loads(request.body)
-
+    print(body)
     if "#" in body["text"] or "||" in body["text"]:
         return json.dumps([])
 
-    first = body["first"]
-    last = body["last"]
-    posts = className.objects.order_by("-date")[first:last]
-    if body["text"] != "":
-        posts = className.objects.filter(title__contains=body["text"]).order_by(
-            "-date"
-        )[first:last]
-    if body["category"] != "All":
-        posts = className.objects.filter(category=body["category"]).order_by("-date")[
-            first:last
-        ]
-    if body["category"] != "All" and body["text"] != "":
-        posts = className.objects.filter(
-            title__contains=body["text"], category=body["category"]
-        ).order_by("-date")[first:last]
+    posts = getPosts(body, className)
 
-    data = []
+    if className == Clustering:
+        data = getData(posts, flag="Main")
+    else:
+        data = getData(posts, flag="None")
 
-    for post in posts:
-        data.append(
-            {
-                "id": str(post._id),
-                "title": post.title,
-                "mainText": post.mainText,
-                "category": post.category,
-                "date": post.date,
-                "url": post.url,
-                "reporter": post.reporter,
-                "press": press,
-                "visible": False,
-            }
-        )
     return json.dumps(data)
 
 
 @csrf_exempt
 def read_busan(request):
-    return HttpResponse(function(busan, request, "부산일보"))
+    return HttpResponse(function(className=busan, request=request))
 
 
 @csrf_exempt
 def read_ohmynews(request):
-    return HttpResponse(function(Ohmynews, request, "오마이뉴스"))
+    return HttpResponse(function(className=Ohmynews, request=request))
 
 
 @csrf_exempt
 def read_wikitree(request):
-    return HttpResponse(function(Wikitree, request, "위키트리"))
+    return HttpResponse(function(className=Wikitree, request=request))
 
 
 @csrf_exempt
 def read_herald(request):
-    return HttpResponse(function(Herald, request, "헤럴드경제"))
+    return HttpResponse(function(className=Herald, request=request))
 
 
 @csrf_exempt
 def read_nocut(request):
-    return HttpResponse(function(Nocut, request, "노컷뉴스"))
+    return HttpResponse(function(className=Nocut, request=request))
 
 
 @csrf_exempt
 def read_donga(request):
-    return HttpResponse(function(Donga, request, "동아일보"))
+    return HttpResponse(function(className=Donga, request=request))
 
 
 @csrf_exempt
 def read_yeonhap(request):
-    return HttpResponse(function(Yeonhap, request, "연합뉴스"))
+    return HttpResponse(function(className=Yeonhap, request=request))
 
 
 @csrf_exempt
 def read_hangook(request):
-    return HttpResponse(function(Hangook, request, "한국일보"))
+    return HttpResponse(function(className=Hangook, request=request))
 
 
 @csrf_exempt
 def read_joongang(request):
-    return HttpResponse(function(Joongang, request, "중앙일보"))
+    return HttpResponse(function(className=Joongang, request=request))
 
 
 @csrf_exempt
 def read_joseon(request):
-    return HttpResponse(function(Joseon, request, "조선일보"))
+    return HttpResponse(function(className=Joseon, request=request))
 
 
 @csrf_exempt
 def read_subs(request):
-    return HttpResponse(function2(request))
+    return HttpResponse(function2(request=request))
 
 
 @csrf_exempt
 def read_main(request):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0]
-    else:
-        ip = request.META.get("REMOTE_ADDR")
-    print("IP :", ip)
-
-    body = json.loads(request.body)
-
-    if "#" in body["text"] or "||" in body["text"]:
-        return json.dumps([])
-
-    className = Clustering
-    first = body["first"]
-    last = body["last"]
-    posts = className.objects.order_by("-date")[first:last]
-    if body["text"] != "":
-        posts = className.objects.filter(title__contains=body["text"]).order_by(
-            "-date"
-        )[first:last]
-    if body["category"] != "All":
-        posts = className.objects.filter(category=body["category"]).order_by("-date")[
-            first:last
-        ]
-    if body["category"] != "All" and body["text"] != "":
-        posts = className.objects.filter(
-            title__contains=body["text"], category=body["category"]
-        ).order_by("-date")[first:last]
-
-    data = []
-
-    for post in posts:
-        urls = []
-        for articles in post.articles:
-            urls.append(articles["url"])
-        data.append(
-            {
-                "id": str(post._id),
-                "title": post.title,
-                "mainText": post.mainText,
-                "category": post.category,
-                "date": post.date,
-                "articles": post.articles,
-                "url": urls,
-                "press" : "종합뉴스",
-                "visible": False,
-            }
-        )
-
-    return HttpResponse(json.dumps(data))
+    return HttpResponse(function(className=Clustering, request=request))
 
 
 def function2(request):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0]
-    else:
-        ip = request.META.get("REMOTE_ADDR")
-    print("IP :", ip)
+    print("IP :", get_client_ip(request))
 
     body = json.loads(request.body)
 
@@ -199,6 +214,21 @@ def function2(request):
     first = body["first"]
     last = body["last"]
     classNames = body["classNames"]
+    if body["emotion"] != "All":
+        if body["emotion"] == "neutral":
+            Emotion = "중립"
+        elif body["emotion"] == "positive":
+            Emotion = "긍정"
+        elif body["emotion"] == "negative":
+            Emotion = "부정"
+        elif body["emotion"] == "warm":
+            Emotion = "따뜻한"
+        elif body["emotion"] == "interesting":
+            Emotion = "신기한"
+        elif body["emotion"] == "shocking":
+            Emotion = "충격적인"
+        elif body["emotion"] == "sad":
+            Emotion = "슬픈"
     classes = []
     press = []
     for className in classNames:
@@ -237,24 +267,46 @@ def function2(request):
 
     for i in range(len(classes)):
         posts = classes[i].objects.order_by("-date")[first:last]
-        if body["text"] != "":
+
+        if body["text"] == "" and body["category"] != "All":
+            if body["emotion"] == "All":
+                posts = (
+                    classes[i]
+                    .objects.filter(category=body["category"])
+                    .order_by("-date")[first:last],
+                )
+            else:
+                posts = (
+                    classes[i]
+                    .objects.filter(category=body["category"], emotion=Emotion)
+                    .order_by("-date")[first:last],
+                )
+
+        elif body["text"] != "" and body["category"] == "All":
             posts = (
                 classes[i]
                 .objects.filter(title__contains=body["text"])
                 .order_by("-date")[first:last]
             )
-        if body["category"] != "All":
-            posts = (
-                classes[i]
-                .objects.filter(category=body["category"])
-                .order_by("-date")[first:last]
-            )
-        if body["category"] != "All" and body["text"] != "":
-            posts = (
-                classes[i]
-                .objects.filter(title__contains=body["text"], category=body["category"])
-                .order_by("-date")[first:last]
-            )
+
+        elif body["text"] != "" and body["category"] != "All":
+            if body["emotion"] == "All":
+                posts = (
+                    classes[i]
+                    .objects.filter(title__contains=body["text"], category=body["category"])
+                    .order_by("-date")[first:last]
+                )
+            else:
+                posts = (
+                    classes[i]
+                    .objects.filter(
+                        title__contains=body["text"], category=body["category"], emotion=Emotion
+                    )
+                    .order_by("-date")[first:last]
+                )
+                
+        if type(posts) == tuple:
+            posts = posts[0]
 
         for post in posts:
             data.append(
@@ -267,6 +319,8 @@ def function2(request):
                     "url": post.url,
                     "reporter": post.reporter,
                     "press": press[i],
+                    "img": post.img,
+                    "emotion": post.emotion,
                     "visible": False,
                 }
             )
