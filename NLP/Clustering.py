@@ -278,6 +278,11 @@ class NLP:
                 if isExist:
                     continue
                 col.insert_one(originalData)
+            else:
+                isExist = None
+                isExist = col.find_one({"_id": originalData["_id"]})
+                if isExist:
+                    col.delete_one({"_id": originalData["_id"]})
 
     def startClustering(self):
         while True:
