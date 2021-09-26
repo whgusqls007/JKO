@@ -50,7 +50,8 @@ const CardComponent = (props) => {
       props.category,
       setData,
       setLoading,
-      props.emotion
+      props.emotion,
+      props.cluster
     );
     setFirstParam(10);
     setSecondParam(19);
@@ -65,7 +66,8 @@ const CardComponent = (props) => {
       props.category,
       setData,
       setLoading,
-      props.emotion
+      props.emotion,
+      props.cluster
     );
     setFirstParam(10);
     setSecondParam(19);
@@ -78,7 +80,7 @@ const CardComponent = (props) => {
 
   const Item = ({ item }) => {
     return (
-      <View>
+      <View key={item.id}>
         <ArticleModal
           item={item}
           FsetFalse={setFalse}
@@ -87,13 +89,14 @@ const CardComponent = (props) => {
         />
 
         <TouchableOpacity
+          key={item.id}
           onPress={() => setTrue(item.id, data, setData)}
           style={{
             alignContent: 'center',
             alignItems: 'center',
           }}
         >
-          <View style={styles.cardLayout}>
+          <View style={styles.cardLayout} key={item.id}>
             {item.img !== '' ? (
               <Image source={{ uri: item.img }} style={styles.imageArea} />
             ) : null}
@@ -144,7 +147,8 @@ const CardComponent = (props) => {
             props.category,
             setData,
             setLoading,
-            props.emotion
+            props.emotion,
+            props.cluster
           );
           setFirstParam(10);
           setSecondParam(19);
@@ -164,7 +168,8 @@ const CardComponent = (props) => {
             prevCategory,
             props.pressURL,
             props.emotion,
-            data
+            data,
+            props.cluster
           );
         }}
         onEndReachedThreshold={0.9}

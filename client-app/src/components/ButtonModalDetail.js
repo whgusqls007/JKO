@@ -135,6 +135,17 @@ const ButtonModalDetail = (props) => {
             <Text style={styles.subScribeText}>구독</Text>
           </View>
         ) : null}
+        {props.isMain === true ? (
+          <View style={styles.subScribe}>
+            <Checkbox
+              status={props.cluster ? 'checked' : 'unchecked'}
+              onPress={() => {
+                props.setCluster(!props.cluster);
+              }}
+            />
+            <Text style={styles.subScribeText}>중복 제거</Text>
+          </View>
+        ) : null}
         <AntDesign.Button
           name="search1"
           size={24}

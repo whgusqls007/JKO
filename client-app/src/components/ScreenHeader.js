@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, Platform, CheckBox } from 'react-native';
+import { View, StyleSheet, Text, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+
 
 const ScreenHeader = (props) => {
   return (

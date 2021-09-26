@@ -132,7 +132,8 @@ export const loadData = (
   category,
   setData,
   setLoading,
-  emotion
+  emotion,
+  cluster
 ) => {
   fetch(URL, {
     method: 'POST',
@@ -146,10 +147,12 @@ export const loadData = (
       text: search,
       category: category,
       emotion: emotion,
+      isCluster: cluster,
     }),
   })
     .then((response) => response.json())
     .then((loadedData) => {
+      console.log(loadedData);
       setData(loadedData);
       setLoading(false);
     })
@@ -167,7 +170,8 @@ export const loadExtraData = (
   prevCategory,
   URL,
   emotion,
-  data
+  data,
+  cluster
 ) => {
   fetch(URL, {
     method: 'POST',
@@ -181,6 +185,7 @@ export const loadExtraData = (
       text: prevText,
       category: prevCategory,
       emotion: emotion,
+      isCluster: cluster,
     }),
   })
     .then((response) => response.json())
@@ -205,7 +210,8 @@ export const loadDataForSubs = (
   setData,
   setLoading,
   urls,
-  emotion
+  emotion,
+  cluster
 ) => {
   fetch(URL, {
     method: 'POST',
@@ -242,7 +248,8 @@ export const loadExtraDataForSubs = (
   URL,
   data,
   urls,
-  emotion
+  emotion,
+  cluster
 ) => {
   fetch(URL, {
     method: 'POST',

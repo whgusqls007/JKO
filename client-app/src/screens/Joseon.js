@@ -87,6 +87,7 @@ const Joseon = (props) => {
         fromFirst={fromFirst}
         search2={search}
         reset={reset}
+        cluster={false}
       />
     </View>
   );

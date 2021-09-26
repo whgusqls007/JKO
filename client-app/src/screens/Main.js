@@ -19,6 +19,7 @@ const Main = (props) => {
   const [reset, setReset] = useState(0);
   const [emotion, setEmotion] = useState('All');
   const [search, setSearch] = useState(0);
+  const [cluster, setCluster] = useState(0);
 
   useEffect(() => {
     CategoryLabel(current, setCategoryLabel);
@@ -36,6 +37,9 @@ const Main = (props) => {
         currentValue={current}
         visibleValue={visible1}
         isMainOrSubs={true}
+        isMain={true}
+        cluster={cluster}
+        setCluster={setCluster}
         name="read_main/"
         pressName="메인"
       />
@@ -57,6 +61,7 @@ const Main = (props) => {
         navigation={props.navigation}
         FsetReset={setReset}
         reset={reset}
+        setCluster={setCluster}
       />
       <CardComponent
         pressName="Main"
@@ -67,6 +72,7 @@ const Main = (props) => {
         fromFirst={fromFirst}
         search2={search}
         reset={reset}
+        cluster={cluster}
       />
     </View>
   );

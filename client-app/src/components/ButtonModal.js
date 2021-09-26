@@ -23,6 +23,9 @@ const ButtonModal = (props) => {
         search={props.search}
         setSearch={props.setSearch}
         isMainOrSubs={props.isMainOrSubs}
+        isMain={props.isMain}
+        cluster={props.cluster}
+        setCluster={props.setCluster}
       />
     </Modal>
   );
