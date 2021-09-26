@@ -29,7 +29,7 @@ def get_client_ip(request):
 def getPosts(body=None, className=None, flag="None"):
     first = body["first"]
     last = body["last"]
-    print(body["emotion"])
+
     if body["emotion"] != "All":
         if body["emotion"] == "neutral":
             Emotion = "중립"
@@ -82,7 +82,7 @@ def getPosts(body=None, className=None, flag="None"):
 def getData(posts, flag="None"):
     data = []
     for post in posts:
-        if flag == "Main":
+        if post.articles:
             urls = []
             press = []
             for articles in post.articles:
@@ -124,23 +124,137 @@ def getData(posts, flag="None"):
     return data
 
 
+def getData_all(body):
+    first = body["first"] // 2
+    last = body["last"] // 2
+
+    if body["emotion"] != "All":
+        if body["emotion"] == "neutral":
+            Emotion = "중립"
+        elif body["emotion"] == "positive":
+            Emotion = "긍정"
+        elif body["emotion"] == "negative":
+            Emotion = "부정"
+        elif body["emotion"] == "warm":
+            Emotion = "따뜻한"
+        elif body["emotion"] == "interesting":
+            Emotion = "신기한"
+        elif body["emotion"] == "shocking":
+            Emotion = "충격적인"
+        elif body["emotion"] == "sad":
+            Emotion = "슬픈"
+
+    classes = []
+    press = []
+    classes.append(busan)
+    press.append("부산일보")
+    classes.append(Donga)
+    press.append("동아일보")
+    classes.append(Hangook)
+    press.append("한국일보")
+    classes.append(Herald)
+    press.append("헤럴드경제")
+    classes.append(Joongang)
+    press.append("중앙일보")
+    classes.append(Joseon)
+    press.append("조선일보")
+    classes.append(Nocut)
+    press.append("노컷뉴스")
+    classes.append(Ohmynews)
+    press.append("오마이뉴스")
+    classes.append(Wikitree)
+    press.append("위키트리")
+    classes.append(Yeonhap)
+    press.append("연합뉴스")
+
+    data = []
+
+    for i in range(len(classes)):
+        posts = classes[i].objects.order_by("-date")[first:last]
+
+        if body["text"] == "" and body["category"] != "All":
+            if body["emotion"] == "All":
+                posts = (
+                    classes[i]
+                    .objects.filter(category=body["category"])
+                    .order_by("-date")[first:last],
+                )
+            else:
+                posts = (
+                    classes[i]
+                    .objects.filter(category=body["category"], emotion=Emotion)
+                    .order_by("-date")[first:last],
+                )
+
+        elif body["text"] != "" and body["category"] == "All":
+            posts = (
+                classes[i]
+                .objects.filter(title__contains=body["text"])
+                .order_by("-date")[first:last]
+            )
+
+        elif body["text"] != "" and body["category"] != "All":
+            if body["emotion"] == "All":
+                posts = (
+                    classes[i]
+                    .objects.filter(title__contains=body["text"], category=body["category"])
+                    .order_by("-date")[first:last]
+                )
+            else:
+                posts = (
+                    classes[i]
+                    .objects.filter(
+                        title__contains=body["text"], category=body["category"], emotion=Emotion
+                    )
+                    .order_by("-date")[first:last]
+                )
+
+        if type(posts) == tuple:
+            posts = posts[0]
+
+        for post in posts:
+            data.append(
+                {
+                    "id": str(post._id),
+                    "title": post.title,
+                    "mainText": post.mainText,
+                    "category": post.category,
+                    "date": post.date,
+                    "url": post.url,
+                    "reporter": post.reporter,
+                    "press": post.press,
+                    "img": post.img,
+                    "emotion": post.emotion,
+                    "visible": False,
+                }
+            )
+
+    data = sorted(data, reverse=True, key=lambda x: x["date"])
+
+    return data
+
+
 @csrf_exempt
 def function(className=None, request=None):
     print("IP :", get_client_ip(request))
 
     body = json.loads(request.body)
-    print(body)
+
     if "#" in body["text"] or "||" in body["text"]:
         return json.dumps([])
 
-    posts = getPosts(body, className)
-
-    if className == Clustering:
+    if body["isCluster"]:
+        posts = getPosts(body, className)
         data = getData(posts, flag="Main")
+        return json.dumps(data)
     else:
-        data = getData(posts, flag="None")
+        if className == Clustering:
+            data = getData_all(body)
+        else:
+            posts = getPosts(body, className)
+            data = getData(posts, flag="None")
 
-    return json.dumps(data)
+        return json.dumps(data)
 
 
 @csrf_exempt
@@ -204,8 +318,6 @@ def read_main(request):
 
 
 def function2(request):
-    print("IP :", get_client_ip(request))
-
     body = json.loads(request.body)
 
     if "#" in body["text"] or "||" in body["text"]:
@@ -304,7 +416,7 @@ def function2(request):
                     )
                     .order_by("-date")[first:last]
                 )
-                
+
         if type(posts) == tuple:
             posts = posts[0]
 
