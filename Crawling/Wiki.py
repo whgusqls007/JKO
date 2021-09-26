@@ -37,9 +37,7 @@ class Wiki(CrawlingDriver):
                 time.sleep(2)
 
                 try:
-                    date = self.getElement(
-                        "//*[@id='content']/div/div[1]/div/div/p[1]"
-                    ).text
+                    date = self.getElement("//*[@id='content']/div/div[1]/div/div/p[1]").text
                 except:
                     print("날짜시간 에러")
                     continue
@@ -62,6 +60,24 @@ class Wiki(CrawlingDriver):
                     except:
                         break
 
+                j = 1
+                img_src = ""
+                while True:
+                    try:
+                        if j > 3:
+                            img_src = ""
+                            break
+                        img_src = self.driver.find_element_by_css_selector(
+                            f"#wikicon > div:nth-child({j}) > figure > img"
+                        )
+                        if img_src:
+                            img_src = img_src.get_attribute("src")
+                            break
+
+                    except:
+                        img_src = ""
+                        break
+
                 url = self.driver.current_url
 
                 mainText = mainText.replace("\n", " ")
@@ -75,6 +91,9 @@ class Wiki(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "위키트리",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -86,6 +105,8 @@ class Wiki(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "위키트리",
+                        "img": img_src,
                     }
                 )
         return self.articles

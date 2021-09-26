@@ -39,9 +39,7 @@ class Donga(CrawlingDriver):
                 j = 1
                 while True:
                     try:
-                        subText = self.getElement(
-                            f"//*[@id='content']/div/div[1]/div[{j}]"
-                        ).text
+                        subText = self.getElement(f"//*[@id='content']/div/div[1]/div[{j}]").text
                         mainText = mainText.replace(subText, "")
                         j += 1
                     except:
@@ -50,20 +48,25 @@ class Donga(CrawlingDriver):
                 url = self.driver.current_url
 
                 try:
-                    reporter = self.getElement(
-                        "//*[@id='container']/div[2]/div[2]/span[1]"
-                    ).text
+                    reporter = self.getElement("//*[@id='container']/div[2]/div[2]/span[1]").text
                 except:
                     continue
 
                 try:
-                    date = self.getElement(
-                        "//*[@id='container']/div[2]/div[2]/span[2]"
-                    ).text[3:]
+                    date = self.getElement("//*[@id='container']/div[2]/div[2]/span[2]").text[3:]
                 except:
                     continue
 
                 mainText = mainText.replace("\n", " ")
+
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#content > div > div.article_txt > div.articlePhotoC > span.thumb > img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
 
                 self.articles.append(
                     {
@@ -74,6 +77,9 @@ class Donga(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "동아일보",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -85,6 +91,8 @@ class Donga(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "동아일보",
+                        "img": img_src,
                     }
                 )
         return self.articles

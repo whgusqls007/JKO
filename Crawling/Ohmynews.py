@@ -88,6 +88,15 @@ class Ohmynews(CrawlingDriver):
                     if "[관련 기사]" in mainText:
                         mainText = mainText.replace("[관련 기사]", "")
 
+                    img_src = ""
+                    try:
+                        img_src = self.driver.find_element_by_css_selector(
+                            "#aspnetForm > div.atc-wrap > section.B-atc > section.arc-wrap > div.atc-text > div.text > div > div.image > img"
+                        ).get_attribute("src")
+                    except:
+                        img_src = ""
+                        pass
+
                 else:
                     try:
                         article = self.getElement(
@@ -137,6 +146,14 @@ class Ohmynews(CrawlingDriver):
                             j += 1
                         except:
                             break
+                    img_src = ""
+                    try:
+                        img_src = self.driver.find_element_by_css_selector(
+                            "#content_wrap > div.content > div.newswrap > div.news_body > div.news_view > div.article_view > div > table:nth-child(1) > tbody > tr:nth-child(1) > td > img"
+                        ).get_attribute("src")
+                    except:
+                        img_src = ""
+                        pass
 
                 url = self.driver.current_url
 
@@ -153,6 +170,9 @@ class Ohmynews(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "오마이뉴스",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -164,6 +184,8 @@ class Ohmynews(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "오마이뉴스",
+                        "img": img_src,
                     }
                 )
 

@@ -18,17 +18,13 @@ class Yeonhap(CrawlingDriver):
             for i in range(1, 10):
                 self.getSite(self.url[category])
                 try:
-                    article = self.getElement(
-                        f"//*[@id='majorList']/li[{i}]/div/div[2]/a"
-                    )
+                    article = self.getElement(f"//*[@id='majorList']/li[{i}]/div/div[2]/a")
                 except:
                     continue
 
                 title = article.text
                 try:
-                    date = self.getElement(
-                        f"//*[@id='majorList']/li[{i}]/div/div[1]/span[2]"
-                    ).text
+                    date = self.getElement(f"//*[@id='majorList']/li[{i}]/div/div[1]/span[2]").text
                 except:
                     continue
 
@@ -57,6 +53,14 @@ class Yeonhap(CrawlingDriver):
                         break
 
                 mainText = mainText.replace("\n", "")
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#articleWrap > div.content01.scroll-article-zone01 > div > div > article > div.comp-box.photo-group > figure > div > span > img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
 
                 self.articles.append(
                     {
@@ -67,6 +71,9 @@ class Yeonhap(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": "2021-" + date,
+                        "press": "연합뉴스",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -78,6 +85,11 @@ class Yeonhap(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": "2021-" + date,
+                        "press": "연합뉴스",
+                        "img": img_src,
                     }
                 )
         return self.articles
+
+
+# articleWrap > div.content01.scroll-article-zone01 > div > div > article > div.comp-box.photo-group > figure > div > span > img

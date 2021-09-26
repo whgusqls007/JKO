@@ -39,21 +39,29 @@ class Busan(CrawlingDriver):
 
                 while True:
                     try:
+
                         mainText += self.getElement(
-                            f"//*[@id='container']/div[1]/div[1]/div[4]/p[{j}]"
+                            f"//*[@id='container']/div[1]/div[4]/div[1]/div[2]/p[{j}]"
                         ).text
                         j += 1
                     except:
                         break
-
                 url = self.driver.current_url
 
                 try:
                     reporter = self.getElement(
-                        "//*[@id='container']/div[1]/div[1]/div[3]/div[1]/div[1]"
+                        "//*[@id='container']/div[1]/div[4]/div[1]/div[1]/div[2]/div[1]"
                     ).text
                 except:
                     continue
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_xpath(
+                        "//*[@id='container']/div[1]/div[4]/div[1]/div[2]/div[1]/img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
 
                 mainText = mainText.replace("\n", " ")
 
@@ -66,6 +74,9 @@ class Busan(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date[0:10] + " " + date[12:17],
+                        "press": "부산일보",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -77,6 +88,8 @@ class Busan(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date[0:10] + " " + date[12:17],
+                        "press": "부산일보",
+                        "img": img_src,
                     }
                 )
 

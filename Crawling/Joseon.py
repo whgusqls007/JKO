@@ -30,9 +30,9 @@ class Joseon(CrawlingDriver):
 
         self.driver.find_element_by_xpath("//*[@id='username']").send_keys(ID)
         self.driver.find_element_by_xpath("//*[@id='subsPassword']").send_keys(PW)
-        self.driver.find_element_by_xpath(
-            "//*[@id='fusion-app']/div[2]/div/div/div[5]/div[1]/label"
-        ).click()
+        # self.driver.find_element_by_xpath(
+        #     "//*[@id='fusion-app']/div[2]/div/div/div[5]/div[1]/label"
+        # ).click()
         time.sleep(2)
         self.driver.find_element_by_xpath("//*[@id='subsSignIn']").click()
         time.sleep(2)
@@ -98,6 +98,15 @@ class Joseon(CrawlingDriver):
 
                 mainText = mainText.replace("\n", " ")
 
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#fusion-app > div.article > div:nth-child(2) > div > section > article > section > figure > div > div > div > div.box--position-relative > div > img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
+
                 date = date.replace(".", "-")
 
                 self.articles.append(
@@ -109,6 +118,9 @@ class Joseon(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "조선일보",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -120,6 +132,8 @@ class Joseon(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "조선일보",
+                        "img": img_src,
                     }
                 )
 

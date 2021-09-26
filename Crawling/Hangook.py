@@ -70,6 +70,15 @@ class Hangook(CrawlingDriver):
 
                 mainText = mainText.replace("\n", " ")
 
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "body > div.wrap > div.container.end.end-uni > div.end-body > div > div.col-main.read > div.editor-img-box.read > img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
+
                 date = date.replace(".", "-")
 
                 self.articles.append(
@@ -81,6 +90,9 @@ class Hangook(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "한국일보",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -92,6 +104,8 @@ class Hangook(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "한국일보",
+                        "img": img_src,
                     }
                 )
         return self.articles

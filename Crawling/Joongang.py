@@ -18,18 +18,14 @@ class Joongang(CrawlingDriver):
             for i in range(1, 10):
                 self.getSite(self.url[category])
                 try:
-                    article = self.getElement(
-                        f'//*[@id="story_list"]/li[{i}]/div[2]/h2/a'
-                    )
+                    article = self.getElement(f'//*[@id="story_list"]/li[{i}]/div[2]/h2/a')
                 except:
                     continue
 
                 title = article.text
 
                 try:
-                    date = self.getElement(
-                        f'//*[@id="story_list"]/li[{i}]/div[2]/div/p'
-                    ).text
+                    date = self.getElement(f'//*[@id="story_list"]/li[{i}]/div[2]/div/p').text
                 except:
                     continue
 
@@ -37,7 +33,7 @@ class Joongang(CrawlingDriver):
 
                 time.sleep(2)
 
-                mainText = ''
+                mainText = ""
                 j = 1
                 while True:
                     try:
@@ -45,7 +41,6 @@ class Joongang(CrawlingDriver):
                         j += 1
                     except:
                         break
-
 
                 try:
                     reporter = self.getElement(
@@ -55,8 +50,17 @@ class Joongang(CrawlingDriver):
                     continue
 
                 url = self.driver.current_url
-                
-                date = date.replace('.', '-')
+
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#article_body > div.ab_photo.photo_center > div > img"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
+
+                date = date.replace(".", "-")
 
                 self.articles.append(
                     {
@@ -67,6 +71,9 @@ class Joongang(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "중앙일보",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -78,6 +85,8 @@ class Joongang(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "중앙일보",
+                        "img": img_src,
                     }
                 )
         return self.articles

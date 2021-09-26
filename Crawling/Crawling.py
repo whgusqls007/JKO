@@ -118,7 +118,12 @@ class Crawling:
             self.col = self.db[self.colList[i]]
             self.col.delete_many({})
 
+    def deleteOne(self, api_press):
+        col = self.db["api_clustering"]
+        col.delete_many({})
+
 
 a = Crawling()
 a.start()
 # a.deleteAll()
+# a.deleteOne("api_yeonhap")

@@ -22,9 +22,7 @@ class Herald(CrawlingDriver):
                         article = self.getElement(
                             "/html/body/div/div[3]/div[2]/div[1]/a/div[2]/div[1]"
                         )
-                        date = self.getElement(
-                            "/html/body/div/div[3]/div[2]/div[1]/div"
-                        ).text
+                        date = self.getElement("/html/body/div/div[3]/div[2]/div[1]/div").text
                     except:
                         continue
                 else:
@@ -47,9 +45,7 @@ class Herald(CrawlingDriver):
 
                 while True:
                     try:
-                        mainText += self.getElement(
-                            f"//*[@id='articleText']/p[{j}]"
-                        ).text
+                        mainText += self.getElement(f"//*[@id='articleText']/p[{j}]").text
                         mainText += "\n"
                         j += 1
 
@@ -63,6 +59,15 @@ class Herald(CrawlingDriver):
 
                 date = date.replace(".", "-")
 
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#heraldbizimg01"
+                    ).get_attribute("src")
+                except:
+                    img_src = ""
+                    pass
+
                 self.articles.append(
                     {
                         "_id": None,
@@ -72,6 +77,9 @@ class Herald(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "헤럴드경제",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -83,6 +91,8 @@ class Herald(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "헤럴드경제",
+                        "img": img_src,
                     }
                 )
 

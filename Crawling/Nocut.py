@@ -18,19 +18,12 @@ class Nocut(CrawlingDriver):
             for i in range(1, 10):
                 self.getSite(self.url[category])
                 try:
-                    article = self.getElement(
-                        f"//*[@id='pnlNewsList']/ul/li[{i}]/dl/dt/a"
-                    )
+                    article = self.getElement(f"//*[@id='pnlNewsList']/ul/li[{i}]/dl/dt/a")
                 except:
                     continue
 
                 title = article.text
-                if (
-                    "[영상]" in title
-                    or "[노컷브이]" in title
-                    or "[윤태곤의 판]" in title
-                    or "[인터뷰]" in title
-                ):
+                if "[영상]" in title or "[노컷브이]" in title or "[윤태곤의 판]" in title or "[인터뷰]" in title:
                     continue
                 article.click()
                 time.sleep(2)
@@ -49,9 +42,7 @@ class Nocut(CrawlingDriver):
                 while True:
 
                     try:
-                        subText = self.getElement(
-                            f"//*[@id='pnlContent']/span[{j}]"
-                        ).text
+                        subText = self.getElement(f"//*[@id='pnlContent']/span[{j}]").text
                         mainText = mainText.replace(subText, "")
                         j += 1
                     except:
@@ -60,9 +51,7 @@ class Nocut(CrawlingDriver):
                 j = 1
                 while j < 20:
                     try:
-                        subText = self.getElement(
-                            f"//*[@id='pnlContent']/div[{j}]/span"
-                        ).text
+                        subText = self.getElement(f"//*[@id='pnlContent']/div[{j}]/span").text
                         mainText = mainText.replace(subText, "")
                         j += 1
                     except:
@@ -90,9 +79,7 @@ class Nocut(CrawlingDriver):
                 url = self.driver.current_url
 
                 try:
-                    reporter = self.getElement(
-                        "//*[@id='pnlViewTop']/div[2]/ul/li[1]/a[1]"
-                    ).text
+                    reporter = self.getElement("//*[@id='pnlViewTop']/div[2]/ul/li[1]/a[1]").text
                 except:
                     try:
                         reporter = self.getElement(
@@ -115,14 +102,19 @@ class Nocut(CrawlingDriver):
                     date = self.getElement("//*[@id='pnlViewTop']/div[2]/ul/li[2]").text
                 except:
                     try:
-                        date = self.getElement(
-                            "//*[@id='pnlViewTop']/div[3]/ul/li[2]"
-                        ).text
+                        date = self.getElement("//*[@id='pnlViewTop']/div[3]/ul/li[2]").text
                     except:
                         continue
 
                 mainText = mainText.replace("\n", " ")
 
+                img_src = ""
+                try:
+                    img_src = self.driver.find_element_by_css_selector(
+                        "#pnlContent > span:nth-child(1) > span > img"
+                    ).get_attribute("src")
+                except:
+                    pass
                 self.articles.append(
                     {
                         "_id": None,
@@ -132,6 +124,9 @@ class Nocut(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "노컷뉴스",
+                        "img": img_src,
+                        "emotion": "",
                     }
                 )
                 print(
@@ -143,6 +138,8 @@ class Nocut(CrawlingDriver):
                         "url": url,
                         "reporter": reporter,
                         "date": date,
+                        "press": "노컷뉴스",
+                        "img": img_src,
                     }
                 )
         return self.articles
